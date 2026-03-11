@@ -183,6 +183,7 @@ app.get("*", (_req, res) => {
 });
 
 const port = Number(process.env.PORT) || 3000;
-app.listen(port, () => {
-  console.log(`DOC Studios app listening on port ${port}`);
+const host = process.env.HOSTNAME || "0.0.0.0";
+app.listen(port, host, () => {
+  console.log(`DOC Studios app listening on ${host}:${port}`);
 });

@@ -37,11 +37,21 @@ Server runs on `PORT` (default `3000`).
 - `CONTACT_RATE_LIMIT_MAX`: Max requests per IP per window (default `5`)
 - `PORT`: HTTP server port (default `3000`)
 
+## Docker Compose
+
+Run:
+
+```bash
+docker compose up -d --build
+```
+
+Service name is `web`, container listens on `3000` internally and exposes it to other Docker network services.
+
 ## Dokploy deployment
 
 1. Create a new project in Dokploy from this repository.
-2. Use `Dockerfile` build strategy.
-3. Set exposed container port to `3000`.
+2. Use `Dockerfile` build strategy (or `docker-compose.yml` if your Dokploy setup supports compose mode).
+3. Set internal app port to `3000`.
 4. Add environment variables:
    - `TELEGRAM_BOT_TOKEN`
    - `TELEGRAM_CHAT_ID`
