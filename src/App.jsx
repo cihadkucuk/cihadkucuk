@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Check,
@@ -653,9 +653,16 @@ export default function App() {
   const [contactFeedback, setContactFeedback] = useState({ type: "idle", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const languageMenuRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
   const t = useMemo(() => localeCopy[lang], [lang]);
   const apiBase = import.meta.env.VITE_API_BASE_URL?.trim();
   const contactEndpoint = apiBase ? `${apiBase.replace(/\/$/, "")}/api/contact` : "/api/contact";
+  const pageTransition = useMemo(
+    () => (prefersReducedMotion ? { duration: 0 } : { duration: 0.18, ease: "easeOut" }),
+    [prefersReducedMotion]
+  );
+  const pageInitial = prefersReducedMotion ? { opacity: 1 } : { opacity: 0 };
+  const pageExit = prefersReducedMotion ? { opacity: 1 } : { opacity: 0 };
   const languageOptions = useMemo(
     () =>
       Object.entries(localeCopy).map(([code, copy]) => ({
@@ -807,12 +814,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-transparent text-teal-950">
-      <div className="fixed right-4 top-4 z-50 md:right-8 md:top-6">
+      <div className="relative z-50 flex justify-end px-4 pt-4 sm:px-5 md:fixed md:right-8 md:top-6 md:px-0 md:pt-0">
         <div ref={languageMenuRef} className="relative">
           <button
             type="button"
             onClick={() => setIsLanguageOpen((prev) => !prev)}
-            className="inline-flex items-center gap-2 rounded-full border border-teal-900/15 bg-[#f8ecdb]/95 px-3 py-2 text-sm text-teal-900/80 shadow-sm backdrop-blur transition hover:border-teal-900/30"
+            className="inline-flex items-center gap-2 rounded-full border border-teal-900/15 bg-[#f8ecdb]/95 px-3.5 py-2 text-sm text-teal-900/80 shadow-sm backdrop-blur transition hover:border-teal-900/30"
             aria-expanded={isLanguageOpen}
             aria-haspopup="listbox"
             aria-label={`${t.langLabel}: ${t.langName}`}
@@ -826,7 +833,7 @@ export default function App() {
           </button>
 
           {isLanguageOpen && (
-            <div className="absolute right-0 mt-2 w-52 rounded-2xl border border-teal-900/15 bg-[#fff8ee] p-1.5 shadow-lg">
+            <div className="absolute right-0 mt-2 w-48 rounded-2xl border border-teal-900/15 bg-[#fff8ee] p-1.5 shadow-lg sm:w-52">
               <ul role="listbox" aria-label={t.langLabel} className="space-y-1">
                 {languageOptions.map((option) => (
                   <li key={option.code}>
@@ -856,16 +863,16 @@ export default function App() {
         </div>
       </div>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="sync" initial={false}>
         {view === "home" ? (
           <motion.main
             key="home"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.35 }}
+            initial={pageInitial}
+            animate={{ opacity: 1 }}
+            exit={pageExit}
+            transition={pageTransition}
           >
-            <section className="min-h-screen bg-[linear-gradient(165deg,#fdf7ec_0%,#f4e7d2_65%,#ecdbc0_100%)] px-5 pb-10 pt-24 md:hidden">
+            <section className="min-h-screen bg-[linear-gradient(165deg,#fdf7ec_0%,#f4e7d2_65%,#ecdbc0_100%)] px-5 pb-10 pt-10 md:hidden">
               <div className="mx-auto flex max-w-md flex-col">
                 <h1 className="mt-5 text-3xl font-semibold leading-tight text-teal-950">{t.mobileLandingTitle}</h1>
                 <p className="mt-3 text-sm leading-7 text-teal-900/80">
@@ -997,20 +1004,20 @@ export default function App() {
         ) : (
           <motion.main
             key="growth"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.35 }}
+            initial={pageInitial}
+            animate={{ opacity: 1 }}
+            exit={pageExit}
+            transition={pageTransition}
           >
             <section className="border-b border-teal-900/15 bg-[#f5ebdc]">
-              <div className="mx-auto flex max-w-7xl flex-col gap-3 pb-6 pl-5 pr-24 pt-24 sm:px-6 md:flex-row md:items-center md:justify-between md:px-10 md:py-8">
-                <nav className="flex flex-wrap items-center gap-2">
+              <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 pb-6 pt-4 sm:px-6 md:flex-row md:items-center md:justify-between md:px-10 md:py-8">
+                <nav className="-mx-1 flex items-center gap-2 overflow-x-auto px-1 pb-1 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0">
                   {growthSubPages.map((page) => (
                     <button
                       key={page.id}
                       type="button"
                       onClick={() => setGrowthPage(page.id)}
-                      className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                      className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition ${
                         growthPage === page.id
                           ? "border-teal-900 bg-teal-900 text-teal-50"
                           : "border-teal-900/20 bg-[#fff8ee] text-teal-900/80 hover:border-teal-900/35"
@@ -1021,13 +1028,12 @@ export default function App() {
                   ))}
                 </nav>
 
-                <button
-                  type="button"
-                  onClick={() => setView("home")}
-                  className="inline-flex w-full items-center justify-center rounded-2xl bg-[#b91c1c] px-5 py-3 text-sm font-medium text-[#fff7f7] transition hover:bg-[#991b1b] md:w-fit"
+                <a
+                  href="https://docstudios.eu"
+                  className="inline-flex w-full max-w-[18rem] self-start items-center justify-center rounded-2xl bg-[#b91c1c] px-5 py-3 text-sm font-medium text-[#fff7f7] transition hover:bg-[#991b1b] md:w-fit md:max-w-none"
                 >
                   {t.docBrandButton}
-                </button>
+                </a>
               </div>
             </section>
 
