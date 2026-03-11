@@ -648,6 +648,7 @@ export default function App() {
     businessReference: "",
     subject: "",
     message: "",
+    website: "",
   });
   const [contactFeedback, setContactFeedback] = useState({ type: "idle", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -768,6 +769,7 @@ export default function App() {
           businessReference,
           subject,
           message,
+          website: contactForm.website,
           language: lang,
         }),
       });
@@ -791,6 +793,7 @@ export default function App() {
         businessReference: "",
         subject: "",
         message: "",
+        website: "",
       });
     } catch {
       setContactFeedback({
@@ -1077,6 +1080,16 @@ export default function App() {
                   <Card className="rounded-[1.6rem] border-teal-900/15 bg-[#fff8ee]">
                     <CardContent className="p-6 md:p-7">
                       <form className="space-y-4" onSubmit={handleContactSubmit} noValidate>
+                        <input
+                          type="text"
+                          name="website"
+                          value={contactForm.website}
+                          onChange={handleContactInputChange}
+                          className="hidden"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          aria-hidden="true"
+                        />
                         <div className="grid gap-4 md:grid-cols-2">
                           <label className="flex flex-col gap-2 text-sm font-medium text-teal-950">
                             {t.formNameLabel}

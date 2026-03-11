@@ -35,6 +35,7 @@ Server runs on `PORT` (default `3000`).
 - `VITE_API_BASE_URL`: Optional frontend override (useful only if API is hosted on another origin)
 - `CONTACT_RATE_LIMIT_WINDOW_MS`: Rate-limit window in milliseconds (default `60000`)
 - `CONTACT_RATE_LIMIT_MAX`: Max requests per IP per window (default `5`)
+- `CONTACT_ALLOWED_ORIGINS`: Comma-separated allowed origins for `/api/contact` (for example `https://cihadkucuk.com,https://www.cihadkucuk.com`)
 - `PORT`: HTTP server port (default `3000`)
 
 ## Docker Compose

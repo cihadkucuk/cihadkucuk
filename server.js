@@ -6,11 +6,16 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distPath = path.join(__dirname, "dist");
+app.set("trust proxy", 1);
 
 app.use(express.json({ limit: "200kb" }));
 
 const RATE_LIMIT_WINDOW_MS = Number(process.env.CONTACT_RATE_LIMIT_WINDOW_MS || 60_000);
 const RATE_LIMIT_MAX = Number(process.env.CONTACT_RATE_LIMIT_MAX || 5);
+const CONTACT_ALLOWED_ORIGINS = String(process.env.CONTACT_ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((entry) => entry.trim())
+  .filter(Boolean);
 const requestBuckets = new Map();
 
 function cleanOldBuckets(now) {
@@ -37,11 +42,18 @@ function isRateLimited(ip) {
 }
 
 function getClientIp(req) {
-  const forwardedFor = req.headers["x-forwarded-for"];
-  if (typeof forwardedFor === "string" && forwardedFor.trim().length > 0) {
-    return forwardedFor.split(",")[0].trim();
-  }
   return req.ip || "unknown";
+}
+
+function isAllowedOrigin(req) {
+  if (CONTACT_ALLOWED_ORIGINS.length === 0) {
+    return true;
+  }
+  const origin = String(req.headers.origin || "").trim();
+  if (!origin) {
+    return false;
+  }
+  return CONTACT_ALLOWED_ORIGINS.includes(origin);
 }
 
 function normalizeField(value, maxLength) {
@@ -114,6 +126,18 @@ app.get("/api/health", (_req, res) => {
 
 app.post("/api/contact", async (req, res) => {
   try {
+    if (!isAllowedOrigin(req)) {
+      return res.status(403).json({
+        ok: false,
+        error: "Request origin is not allowed.",
+      });
+    }
+
+    const honeypot = normalizeField(req.body?.website, 200);
+    if (honeypot) {
+      return res.status(200).json({ ok: true });
+    }
+
     const ip = getClientIp(req);
     if (isRateLimited(ip)) {
       return res.status(429).json({
@@ -185,5 +209,5 @@ app.get("*", (_req, res) => {
 const port = Number(process.env.PORT) || 3000;
 const host = process.env.HOSTNAME || "0.0.0.0";
 app.listen(port, host, () => {
-  console.log(`DOC Studios app listening on ${host}:${port}`);
+  console.log(`Cihad Kucuk app listening on ${host}:${port}`);
 });
