@@ -1,0 +1,619 @@
+﻿<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WineList — tak trochu jiný wine bar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #f5efe6; --warm-white: #faf7f2;
+    --gold: #c9a84c; --gold-light: #e8c87a;
+    --deep-wine: #2c0a0e; --wine: #5c1a24;
+    --charcoal: #1a1612; --warm-gray: #8a7e74; --light-gray: #d4cec7;
+  }
+  html { scroll-behavior: smooth; }
+  body { background-color: var(--charcoal); color: var(--cream); font-family: 'Raleway', sans-serif; font-weight: 300; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+
+  /* LANG SWITCHER */
+  .lang-switcher { display: flex; align-items: center; border: 1px solid rgba(201,168,76,0.3); overflow: hidden; }
+  .lang-btn { background: transparent; border: none; font-family: 'Raleway', sans-serif; font-size: 0.62rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-gray); padding: 0.4rem 0.8rem; cursor: pointer; transition: all 0.25s ease; }
+  .lang-btn.active { background: var(--gold); color: var(--charcoal); }
+  .lang-btn:not(.active):hover { color: var(--gold); background: rgba(201,168,76,0.08); }
+  .lang-divider { width: 1px; height: 20px; background: rgba(201,168,76,0.3); }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(26,22,18,0.95) 0%, transparent 100%); backdrop-filter: blur(2px); transition: all 0.4s ease; }
+  nav.scrolled { background: rgba(26,22,18,0.98); padding: 1rem 3rem; border-bottom: 1px solid rgba(201,168,76,0.15); }
+  .nav-logo { font-family: 'Cinzel', serif; font-size: 1.3rem; letter-spacing: 0.15em; color: var(--gold); text-decoration: none; }
+  .nav-logo span { color: var(--cream); font-weight: 400; }
+  .nav-right { display: flex; align-items: center; gap: 3rem; }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a { font-family: 'Raleway', sans-serif; font-weight: 300; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--light-gray); text-decoration: none; transition: color 0.3s; position: relative; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  /* HERO */
+  #hero { height: 100vh; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 40%, rgba(92,26,36,0.4) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(44,10,14,0.6) 0%, transparent 50%), linear-gradient(135deg, #0d0a08 0%, #1a1209 40%, #2c1208 100%); }
+  .hero-grain { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); opacity: 0.4; pointer-events: none; }
+  .hero-deco { position: absolute; right: 8%; top: 50%; transform: translateY(-50%); width: 1px; height: 55vh; background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.3), transparent); }
+  .hero-deco::before { content: ''; position: absolute; top: 35%; left: 50%; transform: translate(-50%,-50%); width: 80px; height: 80px; border: 1px solid rgba(201,168,76,0.2); border-radius: 50%; }
+  .hero-deco::after { content: ''; position: absolute; top: 35%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; border: 1px solid rgba(201,168,76,0.15); border-radius: 50%; }
+  .hero-content { position: relative; z-index: 2; padding: 0 5rem 6rem; max-width: 700px; }
+  .hero-eyebrow { font-size: 0.65rem; font-weight: 400; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+  .hero-eyebrow::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 7vw, 6rem); font-weight: 300; line-height: 1.1; color: var(--warm-white); margin-bottom: 0.3rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-subtitle { font-family: 'Cormorant Garamond', serif; font-size: clamp(1rem, 2.5vw, 1.4rem); font-style: italic; font-weight: 300; color: var(--warm-gray); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+  .hero-actions { display: flex; gap: 1.5rem; align-items: center; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+  .btn-primary { font-family: 'Raleway', sans-serif; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--charcoal); background: var(--gold); padding: 1rem 2.5rem; text-decoration: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
+  .btn-primary::before { content: ''; position: absolute; inset: 0; background: var(--gold-light); transform: translateX(-100%); transition: transform 0.3s ease; }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+  .btn-ghost { font-family: 'Raleway', sans-serif; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cream); background: transparent; padding: 1rem 2rem; border: 1px solid rgba(201,168,76,0.4); text-decoration: none; transition: all 0.3s ease; }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-scroll { position: absolute; bottom: 2.5rem; right: 5rem; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; opacity: 0; animation: fadeIn 1s 1.2s forwards; }
+  .hero-scroll span { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--warm-gray); writing-mode: vertical-rl; }
+  .scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+  @keyframes scrollPulse { 0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.2)} }
+
+  /* SECTIONS */
+  section { padding: 7rem 5rem; }
+  .section-label { font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; display: block; flex: 1; max-width: 50px; height: 1px; background: var(--gold); }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; line-height: 1.15; color: var(--warm-white); margin-bottom: 1.5rem; }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* STORY */
+  #story { background: linear-gradient(to bottom, var(--charcoal), #110d0a); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+  .story-visual { position: relative; height: 500px; }
+  .story-card { position: absolute; background: linear-gradient(135deg, rgba(92,26,36,0.15), rgba(44,10,14,0.3)); border: 1px solid rgba(201,168,76,0.12); }
+  .story-card-main { inset: 0; display: flex; align-items: center; justify-content: center; }
+  .wine-bottle { width: 60px; height: 240px; background: linear-gradient(to right, #0a0806, #1c1410, #0a0806); margin: 0 auto; border-radius: 4px 4px 0 0; position: relative; }
+  .wine-bottle::before { content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 20px; height: 65px; background: linear-gradient(to right, #0a0806, #1c1410, #0a0806); border-radius: 3px 3px 0 0; }
+  .wine-bottle::after { content: ''; position: absolute; top: 40px; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(92,26,36,0.8), rgba(44,10,14,0.6)); border-radius: 0 0 4px 4px; }
+  .wine-label { position: absolute; top: 60px; left: 8px; right: 8px; height: 80px; background: var(--cream); opacity: 0.9; display: flex; align-items: center; justify-content: center; z-index: 1; }
+  .wine-label-text { font-family: 'Cinzel', serif; font-size: 0.45rem; letter-spacing: 0.15em; color: var(--deep-wine); text-align: center; }
+  .story-float-1 { position: absolute; bottom: -20px; right: -20px; width: 180px; height: 180px; border: 1px solid rgba(201,168,76,0.08); }
+  .story-float-2 { position: absolute; top: -15px; left: -15px; width: 100px; height: 100px; border: 1px solid rgba(201,168,76,0.12); }
+  .story-stat { position: absolute; bottom: 30px; left: 20px; background: rgba(26,22,18,0.95); border: 1px solid rgba(201,168,76,0.2); padding: 1.5rem 2rem; }
+  .story-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--gold); line-height: 1; }
+  .story-stat-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--warm-gray); margin-top: 0.3rem; }
+  .story-text p { font-size: 1.05rem; line-height: 1.9; color: var(--warm-gray); margin-bottom: 1.5rem; }
+  .story-text p strong { color: var(--cream); font-weight: 400; }
+  .story-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 3rem; border: 1px solid rgba(201,168,76,0.1); }
+  .highlight-item { padding: 1.5rem; border: 1px solid rgba(201,168,76,0.08); transition: background 0.3s; }
+  .highlight-item:hover { background: rgba(201,168,76,0.04); }
+  .highlight-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold); line-height: 1; }
+  .highlight-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-gray); margin-top: 0.5rem; }
+
+  /* AUTOMATS */
+  #automats { background: #0e0b09; position: relative; overflow: hidden; }
+  #automats::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); }
+  .automats-header { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 4rem; align-items: end; }
+  .automats-desc { font-size: 1.05rem; line-height: 1.8; color: var(--warm-gray); }
+  .automats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(201,168,76,0.08); }
+  .automat-card { background: #0e0b09; padding: 2.5rem 2rem; position: relative; overflow: hidden; transition: all 0.4s ease; }
+  .automat-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform 0.4s ease; }
+  .automat-card:hover::before { transform: scaleX(1); }
+  .automat-card:hover { background: rgba(201,168,76,0.03); }
+  .automat-num { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.3em; color: rgba(201,168,76,0.4); margin-bottom: 1rem; }
+  .automat-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--cream); margin-bottom: 0.8rem; line-height: 1.3; }
+  .automat-wines { font-size: 0.75rem; color: var(--warm-gray); line-height: 1.7; }
+  .automat-tag { display: inline-block; margin-top: 1.2rem; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); border: 1px solid rgba(201,168,76,0.3); padding: 0.3rem 0.8rem; }
+
+  /* EXPERIENCE */
+  #experience { background: linear-gradient(135deg, #110d0a 0%, #0e0b09 100%); }
+  .experience-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(201,168,76,0.08); margin-top: 4rem; }
+  .exp-card { background: #0e0b09; padding: 3rem; transition: all 0.4s ease; }
+  .exp-card:hover { background: rgba(201,168,76,0.03); }
+  .exp-icon { font-size: 2rem; margin-bottom: 1.5rem; color: var(--gold); }
+  .exp-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--cream); margin-bottom: 1rem; }
+  .exp-text { font-size: 0.85rem; line-height: 1.8; color: var(--warm-gray); }
+  .exp-price { margin-top: 1.5rem; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold); }
+
+  /* MENU */
+  #menu { background: var(--charcoal); }
+  .menu-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-top: 4rem; }
+  .menu-sidebar h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--cream); margin-bottom: 1.5rem; }
+  .menu-sidebar p { font-size: 0.85rem; line-height: 1.9; color: var(--warm-gray); margin-bottom: 1.5rem; }
+  .menu-categories { display: flex; flex-direction: column; border: 1px solid rgba(201,168,76,0.1); }
+  .menu-cat-btn { padding: 1rem 1.5rem; background: transparent; border: none; border-bottom: 1px solid rgba(201,168,76,0.1); color: var(--warm-gray); font-family: 'Raleway', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; text-align: left; cursor: pointer; transition: all 0.3s; }
+  .menu-cat-btn:last-child { border-bottom: none; }
+  .menu-cat-btn:hover, .menu-cat-btn.active { background: rgba(201,168,76,0.06); color: var(--gold); }
+  .menu-items { display: flex; flex-direction: column; gap: 1px; }
+  .menu-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(201,168,76,0.06); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; }
+  .menu-item:hover { background: rgba(201,168,76,0.04); border-color: rgba(201,168,76,0.15); }
+  .menu-item-info h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--cream); margin-bottom: 0.3rem; }
+  .menu-item-info p { font-size: 0.75rem; color: var(--warm-gray); }
+  .menu-item-price { text-align: right; }
+  .price-main { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold); }
+  .price-sub { font-size: 0.65rem; color: var(--warm-gray); letter-spacing: 0.1em; }
+
+  /* VISIT */
+  #visit { background: linear-gradient(to bottom, #0e0b09, var(--charcoal)); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .visit-info h2 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--warm-white); margin-bottom: 3rem; line-height: 1.2; }
+  .visit-info h2 em { font-style: italic; color: var(--gold); }
+  .info-block { margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(201,168,76,0.08); }
+  .info-block:last-child { border-bottom: none; }
+  .info-label { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .info-text { font-size: 1rem; line-height: 1.8; color: var(--cream); }
+  .info-text a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.3); transition: border-color 0.3s; }
+  .info-text a:hover { border-color: var(--gold); color: var(--gold); }
+  .hours-grid { display: flex; flex-direction: column; }
+  .hours-row { display: flex; justify-content: space-between; padding: 0.8rem 0; border-bottom: 1px solid rgba(201,168,76,0.06); font-size: 0.9rem; }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-day { color: var(--warm-gray); }
+  .hours-time { color: var(--cream); }
+  .map-placeholder { height: 400px; background: rgba(201,168,76,0.04); border: 1px solid rgba(201,168,76,0.1); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .map-placeholder::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,168,76,0.03) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,168,76,0.03) 40px); }
+  .map-pin { position: relative; z-index: 1; text-align: center; }
+  .map-pin-dot { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; margin: 0 auto 1rem; box-shadow: 0 0 20px rgba(201,168,76,0.5); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 20px rgba(201,168,76,0.5)}50%{box-shadow:0 0 40px rgba(201,168,76,0.8)} }
+  .map-pin-label { font-family: 'Cinzel', serif; font-size: 0.75rem; letter-spacing: 0.2em; color: var(--gold); }
+  .map-pin-addr { font-size: 0.75rem; color: var(--warm-gray); margin-top: 0.5rem; line-height: 1.6; }
+  .map-link { display: inline-block; margin-top: 1.5rem; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-decoration: none; border: 1px solid rgba(201,168,76,0.3); padding: 0.6rem 1.5rem; transition: all 0.3s; }
+  .map-link:hover { background: rgba(201,168,76,0.08); border-color: var(--gold); }
+
+  /* FOOTER */
+  footer { background: var(--deep-wine); padding: 3rem 5rem; border-top: 1px solid rgba(201,168,76,0.15); display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 0.1em; }
+  .footer-brand span { color: var(--cream); }
+  .footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--warm-gray); font-size: 0.9rem; }
+  .footer-social a { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--warm-gray); text-decoration: none; border: 1px solid rgba(201,168,76,0.2); padding: 0.5rem 1.2rem; transition: all 0.3s; }
+  .footer-social a:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn { from{opacity:0}to{opacity:1} }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0.95rem 1rem; }
+    nav.scrolled { padding: 0.85rem 1rem; }
+    .nav-links { display: none; }
+    .nav-right { gap: 0.8rem; }
+    .lang-btn { padding: 0.35rem 0.65rem; letter-spacing: 0.16em; }
+    #hero { min-height: 100svh; }
+    .hero-content { padding: 0 1rem 3.5rem; max-width: 100%; }
+    .hero-actions { flex-wrap: wrap; gap: 0.8rem; }
+    .btn-primary, .btn-ghost { width: 100%; text-align: center; padding: 0.9rem 1.2rem; }
+    .hero-scroll { display: none; }
+    section { padding: 4.5rem 1rem; }
+    #story, #visit { grid-template-columns: 1fr; gap: 2.2rem; }
+    .story-visual { height: 260px; }
+    .story-stat { left: 12px; bottom: 12px; padding: 1rem 1.2rem; }
+    .story-highlights { grid-template-columns: 1fr; }
+    .automats-header { grid-template-columns: 1fr; }
+    .automats-grid { grid-template-columns: 1fr; }
+    .experience-grid { grid-template-columns: 1fr; }
+    .menu-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+    .menu-item {
+      padding: 1rem 1.1rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    .menu-item-price {
+      text-align: left;
+      align-self: flex-start;
+    }
+    .hours-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+    .map-placeholder { height: 300px; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1rem; }
+  }
+
+  @media (max-width: 640px) {
+    .hero-title { font-size: clamp(2.4rem, 12vw, 3.8rem); }
+    .section-title { font-size: clamp(2rem, 9vw, 2.8rem); }
+    .visit-info h2 { font-size: 2.2rem; margin-bottom: 2rem; }
+    .story-stat-num { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Wine<span>List</span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#story"   data-cs="O nás"      data-en="About">O nás</a></li>
+      <li><a href="#automats" data-cs="Koštomaty"  data-en="Wine Machines">Koštomaty</a></li>
+      <li><a href="#menu"    data-cs="Nabídka"     data-en="Menu">Nabídka</a></li>
+      <li><a href="#experience" data-cs="Zážitek"  data-en="Experience">Zážitek</a></li>
+      <li><a href="#visit"   data-cs="Návštěva"    data-en="Visit">Návštěva</a></li>
+      <li><a href="mailto:info@winelist.cz" data-cs="Rezervace" data-en="Reserve">Rezervace</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btn-cs" onclick="setLang('cs')">CS</button>
+      <div class="lang-divider"></div>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-deco"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Praha 8 — Karlín</div>
+    <h1 class="hero-title">
+      <span data-cs="Trochu jiný" data-en="A little different">Trochu jiný</span><br>
+      <em>wine bar</em>
+    </h1>
+    <p class="hero-subtitle">…tak trochu jiný wine bar</p>
+    <div class="hero-actions">
+      <a href="#automats" class="btn-primary"><span data-cs="Prozkoumat vína" data-en="Explore Wines">Prozkoumat vína</span></a>
+      <a href="#visit" class="btn-ghost" data-cs="Navštivte nás" data-en="Visit Us">Navštivte nás</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span data-cs="Rolovat" data-en="Scroll">Rolovat</span>
+  </div>
+</section>
+
+<section id="story">
+  <div class="story-visual reveal">
+    <div class="story-card story-card-main">
+      <div style="width:160px;height:320px;position:relative;">
+        <div class="wine-bottle">
+          <div class="wine-label"><div class="wine-label-text">WINELIST<br>KARLÍN<br>PRAHA</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="story-float-1"></div>
+    <div class="story-float-2"></div>
+    <div class="story-stat">
+      <div class="story-stat-num">64</div>
+      <div class="story-stat-label" data-cs="Vín po skleničce" data-en="Wines by the glass">Vín po skleničce</div>
+    </div>
+  </div>
+  <div class="story-text reveal">
+    <div class="section-label" data-cs="Náš příběh" data-en="Our Story">Náš příběh</div>
+    <h2 class="section-title">
+      <span data-cs="Být jiný je" data-en="Being different is">Být jiný je</span><br>
+      <em data-cs="vědomá volba" data-en="a conscious choice">vědomá volba</em>
+    </h2>
+    <p data-cs="WineList vlastní a řídí &lt;strong&gt;Róza&lt;/strong&gt;. Víno je středobodem WineListu, ale přes den podáváme i skvělou výběrovou &lt;strong&gt;kávu&lt;/strong&gt; z oblíbených českých pražíren."
+       data-en="WineList is owned and run by &lt;strong&gt;Róza&lt;/strong&gt;. Wine is the heart of WineList, but during the day we also serve excellent specialty &lt;strong&gt;coffee&lt;/strong&gt; from favourite Czech roasters.">
+      WineList vlastní a řídí <strong>Róza</strong>. Víno je středobodem WineListu, ale přes den podáváme i skvělou výběrovou <strong>kávu</strong> z oblíbených českých pražíren.
+    </p>
+    <p data-cs="Pečeme si vlastní pečivo k vínu. O naší nadýchané &lt;strong&gt;focaccie&lt;/strong&gt; se vyprávějí legendy. Sladké koláče pečlivě testujeme na dětech."
+       data-en="We bake our own bread. Legends are told about our fluffy &lt;strong&gt;focaccia&lt;/strong&gt;. Our sweet cakes are carefully tested on children — they know what's good.">
+      Pečeme si vlastní pečivo k vínu. O naší nadýchané <strong>focaccie</strong> se vyprávějí legendy. Sladké koláče pečlivě testujeme na dětech.
+    </p>
+    <p data-cs="Jakékoliv víno si lze koupit s sebou za &lt;strong&gt;běžnou maloobchodní cenu&lt;/strong&gt;. Naše ceny jsou férové a transparentní."
+       data-en="Any wine can be purchased to take home at &lt;strong&gt;standard retail price&lt;/strong&gt;. Our prices are fair and transparent.">
+      Jakékoliv víno si lze koupit s sebou za <strong>běžnou maloobchodní cenu</strong>. Naše ceny jsou férové a transparentní.
+    </p>
+    <div class="story-highlights">
+      <div class="highlight-item">
+        <div class="highlight-num">9</div>
+        <div class="highlight-label" data-cs="Degustačních automatů" data-en="Tasting machines">Degustačních automatů</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-num">25 Kč</div>
+        <div class="highlight-label" data-cs="Vzorek od" data-en="Sample from">Vzorek od</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-num">0,25</div>
+        <div class="highlight-label" data-cs="dl · Malý vzorek" data-en="dl · Small pour">dl · Malý vzorek</div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-num">100%</div>
+        <div class="highlight-label" data-cs="Vlastním tempem" data-en="Your own pace">Vlastním tempem</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="automats">
+  <div class="automats-header reveal">
+    <div>
+      <div class="section-label" data-cs="Koštomaty" data-en="Wine Machines">Koštomaty</div>
+      <h2 class="section-title">
+        <span data-cs="Devět automatů," data-en="Nine machines,">Devět automatů,</span><br>
+        <em data-cs="nekonečný objev" data-en="endless discovery">nekonečný objev</em>
+      </h2>
+    </div>
+    <p class="automats-desc"
+       data-cs="Nikde v České republice — ani daleko za hranicemi — nenajdete stejně širokou, promyšlenou a inspirující nabídku vína po skleničce. 64 vzorků vybraných tak, abyste mohli poznávat, srovnávat a radovat se ze špičkového vína za rozumnou cenu."
+       data-en="Nowhere in the Czech Republic — and rarely beyond its borders — will you find such a wide, thoughtful and inspiring selection of wine by the glass. 64 samples chosen so you can discover, compare and enjoy exceptional wine at a fair price.">
+      Nikde v České republice — ani daleko za hranicemi — nenajdete stejně širokou, promyšlenou a inspirující nabídku vína po skleničce. 64 vzorků vybraných tak, abyste mohli poznávat, srovnávat a radovat se ze špičkového vína za rozumnou cenu.
+    </p>
+  </div>
+  <div class="automats-grid reveal">
+    <div class="automat-card">
+      <div class="automat-num">I · 1–8</div>
+      <h3 class="automat-title" data-cs="Perly Moravy" data-en="Pearls of Moravia">Perly Moravy</h3>
+      <p class="automat-wines" data-cs="Veltlínské zelené, Ryzlink vlašský, Pálava, Frankovka, Zweigeltrebe — klasické moravské víno" data-en="Veltlínské zelené, Welschriesling, Pálava, Blaufränkisch, Zweigeltrebe — classic Moravian wines">Veltlínské zelené, Ryzlink vlašský, Pálava, Frankovka, Zweigeltrebe — klasické moravské víno</p>
+      <span class="automat-tag" data-cs="Morava" data-en="Moravia">Morava</span>
+    </div>
+    <div class="automat-card">
+      <div class="automat-num">II · 9–16</div>
+      <h3 class="automat-title" data-cs="Divoký mix" data-en="Wild Mix">Divoký mix</h3>
+      <p class="automat-wines" data-cs="Sauvignon Blanc z Antipodů, francouzské rosé z Provence, španělská Rioja, italské Primitivo, Grenache z jižní Francie" data-en="Sauvignon Blanc from the Antipodes, French Provence rosé, Spanish Rioja, Italian Primitivo, Grenache from southern France">Sauvignon Blanc z Antipodů, francouzské rosé z Provence, španělská Rioja, italské Primitivo, Grenache z jižní Francie</p>
+      <span class="automat-tag" data-cs="Světový výběr" data-en="World Selection">Světový výběr</span>
+    </div>
+    <div class="automat-card">
+      <div class="automat-num">III · 17–24</div>
+      <h3 class="automat-title" data-cs="Ryzlink & Pinot koutek" data-en="Riesling & Pinot Corner">Ryzlink & Pinot koutek</h3>
+      <p class="automat-wines" data-cs="Ryzlink z Moravy, Německa, Rakouska a Alsaska; Pinot Noir z Oregonu, Nového Zélandu, Německa a Burgundska" data-en="Riesling from Moravia, Germany, Austria and Alsace; Pinot Noir from Oregon, New Zealand, Germany and Burgundy">Ryzlink z Moravy, Německa, Rakouska a Alsaska; Pinot Noir z Oregonu, Nového Zélandu, Německa a Burgundska</p>
+      <span class="automat-tag" data-cs="Srovnání" data-en="Comparison">Srovnání</span>
+    </div>
+    <div class="automat-card">
+      <div class="automat-num">IV · 25–32</div>
+      <h3 class="automat-title" data-cs="Francie" data-en="France">Francie</h3>
+      <p class="automat-wines" data-cs="Bílá z Alsaska, Loiry a Roussillon; zralá červená z levého i pravého břehu Bordeaux" data-en="Whites from Alsace, the Loire and Roussillon; mature reds from both banks of Bordeaux">Bílá z Alsaska, Loiry a Roussillon; zralá červená z levého i pravého břehu Bordeaux</p>
+      <span class="automat-tag">France</span>
+    </div>
+    <div class="automat-card">
+      <div class="automat-num">V · 33–40</div>
+      <h3 class="automat-title" data-cs="Polosladká & Itálie" data-en="Semi-sweet & Italy">Polosladká & Itálie</h3>
+      <p class="automat-wines" data-cs="Tramín z Moravy a Alsaska; likérová vína; Chianti Sangiovese, Nebbiolo, Barolo, Barbera d'Alba" data-en="Traminer from Moravia and Alsace; fortified wines; Chianti Sangiovese, Nebbiolo, Barolo, Barbera d'Alba">Tramín z Moravy a Alsaska; likérová vína; Chianti Sangiovese, Nebbiolo, Barolo, Barbera d'Alba</p>
+      <span class="automat-tag" data-cs="Itálie · Sladká" data-en="Italy · Sweet">Itálie · Sladká</span>
+    </div>
+    <div class="automat-card">
+      <div class="automat-num">VI · 41–46</div>
+      <h3 class="automat-title" data-cs="Naturální & Organická" data-en="Natural & Organic">Naturální & Organická</h3>
+      <p class="automat-wines" data-cs="Neodmyslitelná součást vinárny, která to s vínem myslí vážně. Začněte degustačním vzorkem oranžového vína." data-en="Essential for any bar that takes wine seriously. Start with a tasting pour of orange wine.">Neodmyslitelná součást vinárny, která to s vínem myslí vážně. Začněte degustačním vzorkem oranžového vína.</p>
+      <span class="automat-tag" data-cs="Naturální vína" data-en="Natural Wines">Naturální vína</span>
+    </div>
+    <div class="automat-card">
+      <div class="automat-num">VII · 47–52</div>
+      <h3 class="automat-title" data-cs="Velká vína" data-en="Grand Wines">Velká vína</h3>
+      <p class="automat-wines" data-cs="Grand Cru Chablis, Roero DOCG, Gran Reserva Rioja, Châteauneuf-du-Pape — špičková kvalita, kterou si zasloužíte" data-en="Grand Cru Chablis, Roero DOCG, Gran Reserva Rioja, Châteauneuf-du-Pape — top quality you deserve to taste">Grand Cru Chablis, Roero DOCG, Gran Reserva Rioja, Châteauneuf-du-Pape — špičková kvalita, kterou si zasloužíte</p>
+      <span class="automat-tag" data-cs="Prémiové" data-en="Prestige">Prémiové</span>
+    </div>
+    <div class="automat-card">
+      <div class="automat-num">VIII · 53–58</div>
+      <h3 class="automat-title" data-cs="Bílé perličky & Perly Itálie" data-en="White Gems & Italian Icons">Bílé perličky & Perly Itálie</h3>
+      <p class="automat-wines" data-cs="Dostupná prémiová bílá vína; Barolo, Brunello a Amarone vedle sebe — jako Řím, Benátky a Florencie" data-en="Affordable premium whites; Barolo, Brunello and Amarone side by side — like Rome, Venice and Florence">Dostupná prémiová bílá vína; Barolo, Brunello a Amarone vedle sebe — jako Řím, Benátky a Florencie</p>
+      <span class="automat-tag" data-cs="Italský výběr" data-en="Italian Selection">Italský výběr</span>
+    </div>
+    <div class="automat-card">
+      <div class="automat-num">IX · 59–64</div>
+      <h3 class="automat-title" data-cs="Chardonnay & Nový svět" data-en="Chardonnay & New World">Chardonnay & Nový svět</h3>
+      <p class="automat-wines" data-cs="Chardonnay z Burgundska, Kalifornie a Argentiny; jihoafrický Pinotage, australský Shiraz, Napa Cabernet" data-en="Chardonnay from Burgundy, California and Argentina; South African Pinotage, Australian Shiraz, Napa Cabernet">Chardonnay z Burgundska, Kalifornie a Argentiny; jihoafrický Pinotage, australský Shiraz, Napa Cabernet</p>
+      <span class="automat-tag" data-cs="Nový svět" data-en="New World">Nový svět</span>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="reveal">
+    <div class="section-label" data-cs="Zážitek" data-en="Experience">Zážitek</div>
+    <h2 class="section-title">
+      <span data-cs="Vlastním tempem," data-en="At your own pace,">Vlastním tempem,</span><br>
+      <em data-cs="vlastním směrem" data-en="your own direction">vlastním směrem</em>
+    </h2>
+  </div>
+  <div class="experience-grid reveal">
+    <div class="exp-card">
+      <div class="exp-icon">◈</div>
+      <h3 class="exp-title" data-cs="Systém čipových karet" data-en="Chip Card System">Systém čipových karet</h3>
+      <p class="exp-text" data-cs="Složte zálohu 100 Kč a získejte čipovou kartu. Dobijte ji dle libosti, při příští návštěvě ji opět použijte nebo darujte přátelům. Na kartu lze nahrát jméno obdarovaného." data-en="Leave a 100 Kč deposit and receive a chip card. Top it up as you wish, reuse it next time or give it as a personalised gift with the recipient's name added.">Složte zálohu 100 Kč a získejte čipovou kartu. Dobijte ji dle libosti, při příští návštěvě ji opět použijte nebo darujte přátelům. Na kartu lze nahrát jméno obdarovaného.</p>
+      <div class="exp-price" data-cs="Záloha 100 Kč" data-en="100 Kč deposit">Záloha 100 Kč</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">◇</div>
+      <h3 class="exp-title" data-cs="Velikosti vzorků" data-en="Pour Sizes">Velikosti vzorků</h3>
+      <p class="exp-text" data-cs="Každé víno ochutnejte jako degustační vzorek 0,25 dl, malou skleničku 0,75 dl nebo standardní 1,25 dl. Pro maximum ochutnaných vín začněte nejmenšími vzorky." data-en="Taste any wine as a 0.25 dl sample, a small 0.75 dl glass, or a standard 1.25 dl pour. Start with the smallest pours to experience as many wines as possible.">Každé víno ochutnejte jako degustační vzorek 0,25 dl, malou skleničku 0,75 dl nebo standardní 1,25 dl. Pro maximum ochutnaných vín začněte nejmenšími vzorky.</p>
+      <div class="exp-price" data-cs="od 25 Kč" data-en="from 25 Kč">od 25 Kč</div>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">◉</div>
+      <h3 class="exp-title" data-cs="Vinné mapy" data-en="Wine Maps">Vinné mapy</h3>
+      <p class="exp-text" data-cs='Pro systematické ochutnávače nabízíme „vinné mapy" — doporučené cesty naší nabídkou. Praktičtější způsob, jak proniknout do světa vína, asi neexistuje.' data-en='For systematic tasters we offer "wine maps" — recommended routes through our selection. There is probably no more practical way to dive into the world of wine.'>Pro systematické ochutnávače nabízíme „vinné mapy" — doporučené cesty naší nabídkou. Praktičtější způsob, jak proniknout do světa vína, asi neexistuje.</p>
+    </div>
+    <div class="exp-card">
+      <div class="exp-icon">◌</div>
+      <h3 class="exp-title" data-cs="Víno s sebou" data-en="Take-away Wine">Víno s sebou</h3>
+      <p class="exp-text" data-cs="Jakékoliv víno, které vám chutná, si koupíte za standardní maloobchodní cenu. Nejdřív ochutnejte — pak kupujte bez zklamání." data-en="Any wine you enjoy can be purchased at standard retail price. Taste first, then buy — no disappointment when you get home.">Jakékoliv víno, které vám chutná, si koupíte za standardní maloobchodní cenu. Nejdřív ochutnejte — pak kupujte bez zklamání.</p>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="reveal">
+    <div class="section-label" data-cs="Nabídka" data-en="Menu">Nabídka</div>
+    <h2 class="section-title">
+      <span data-cs="Víno &" data-en="Wine &">Víno &</span>
+      <em data-cs="Občerstvení" data-en="Food">Občerstvení</em>
+    </h2>
+  </div>
+  <div class="menu-layout">
+    <div class="reveal">
+      <div class="menu-sidebar">
+        <h3 data-cs="Každý den čerstvé" data-en="Fresh every day">Každý den čerstvé</h3>
+        <p data-cs="Každý den pečeme čerstvé slané i sladké pečivo. Legendární focaccia, domácí koláče a čerstvé sýrové a uzeninové talíře na vás čekají." data-en="Every day we bake fresh savoury and sweet pastries. Legendary focaccia, homemade cakes and fresh cheese and charcuterie boards await you.">Každý den pečeme čerstvé slané i sladké pečivo. Legendární focaccia, domácí koláče a čerstvé sýrové a uzeninové talíře na vás čekají.</p>
+        <p data-cs="Podáváme také výběrovou kávu z oblíbených českých pražíren." data-en="We also serve specialty coffee from favourite Czech roasters.">Podáváme také výběrovou kávu z oblíbených českých pražíren.</p>
+      </div>
+      <div class="menu-categories">
+        <button class="menu-cat-btn active" data-cs="Vína" data-en="Wines">Vína</button>
+        <button class="menu-cat-btn" data-cs="Káva & Nápoje" data-en="Coffee & Drinks">Káva & Nápoje</button>
+        <button class="menu-cat-btn" data-cs="Jídlo" data-en="Food">Jídlo</button>
+      </div>
+    </div>
+    <div class="menu-items reveal">
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <h4 data-cs="Degustační vzorek" data-en="Tasting Sample">Degustační vzorek</h4>
+          <p data-cs="Jakékoliv víno · 0,25 dl" data-en="Any wine · 0.25 dl">Jakékoliv víno · 0,25 dl</p>
+        </div>
+        <div class="menu-item-price">
+          <div class="price-main">od 25 Kč</div>
+          <div class="price-sub" data-cs="závisí na víně" data-en="depends on wine">závisí na víně</div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <h4 data-cs="Malá sklenička" data-en="Small Glass">Malá sklenička</h4>
+          <p data-cs="Jakékoliv víno · 0,75 dl" data-en="Any wine · 0.75 dl">Jakékoliv víno · 0,75 dl</p>
+        </div>
+        <div class="menu-item-price">
+          <div class="price-main" data-cs="střední cena" data-en="mid range">střední cena</div>
+          <div class="price-sub" data-cs="závisí na víně" data-en="depends on wine">závisí na víně</div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <h4 data-cs="Standardní sklenička" data-en="Standard Glass">Standardní sklenička</h4>
+          <p data-cs="Jakékoliv víno · 1,25 dl" data-en="Any wine · 1.25 dl">Jakékoliv víno · 1,25 dl</p>
+        </div>
+        <div class="menu-item-price">
+          <div class="price-main" data-cs="standardní cena" data-en="standard price">standardní cena</div>
+          <div class="price-sub" data-cs="závisí na víně" data-en="depends on wine">závisí na víně</div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <h4>Brunello di Montalcino</h4>
+          <p data-cs="Jedno z nejprestižnějších italských vín" data-en="One of Italy's most prestigious wines">Jedno z nejprestižnějších italských vín</p>
+        </div>
+        <div class="menu-item-price">
+          <div class="price-main">~300 Kč</div>
+          <div class="price-sub" data-cs="za sklenku" data-en="per glass">za sklenku</div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <h4 data-cs="Čerstvá focaccia" data-en="Fresh Focaccia">Čerstvá focaccia</h4>
+          <p data-cs="Každodenně pečená, legendární domácí výroba" data-en="Baked daily, legendary homemade recipe">Každodenně pečená, legendární domácí výroba</p>
+        </div>
+        <div class="menu-item-price">
+          <div class="price-main" data-cs="vitrína" data-en="see display">vitrína</div>
+          <div class="price-sub" data-cs="denní nabídka" data-en="daily offer">denní nabídka</div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <h4 data-cs="Sýrový & uzeninový talíř" data-en="Cheese & Charcuterie Board">Sýrový & uzeninový talíř</h4>
+          <p data-cs="Každý den čerstvě připravený" data-en="Freshly prepared every day">Každý den čerstvě připravený</p>
+        </div>
+        <div class="menu-item-price">
+          <div class="price-main" data-cs="vitrína" data-en="see display">vitrína</div>
+          <div class="price-sub" data-cs="denní nabídka" data-en="daily offer">denní nabídka</div>
+        </div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <h4 data-cs="Výběrová káva" data-en="Specialty Coffee">Výběrová káva</h4>
+          <p data-cs="Oblíbené české pražírny" data-en="Favourite Czech roasters">Oblíbené české pražírny</p>
+        </div>
+        <div class="menu-item-price">
+          <div class="price-main" data-cs="přes den" data-en="daytime">přes den</div>
+          <div class="price-sub" data-cs="ranní servis" data-en="morning service">ranní servis</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="visit-info reveal">
+    <h2>
+      <span data-cs="Navštivte" data-en="Come &amp;">Navštivte</span><br>
+      <em data-cs="nás" data-en="visit us">nás</em>
+    </h2>
+    <div class="info-block">
+      <div class="info-label" data-cs="Adresa" data-en="Address">Adresa</div>
+      <div class="info-text">WineList s.r.o.<br>Křižíkova 180/28<br>186 00 Praha 8 – Karlín</div>
+    </div>
+    <div class="info-block">
+      <div class="info-label" data-cs="Otevírací doba" data-en="Opening Hours">Otevírací doba</div>
+      <div class="hours-grid">
+        <div class="hours-row">
+          <span class="hours-day" data-cs="Pondeli - Nedele" data-en="Monday - Sunday">Pondeli - Nedele</span>
+          <span class="hours-time">15:00 - 22:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="info-block">
+      <div class="info-label" data-cs="Kontakt" data-en="Contact">Kontakt</div>
+      <div class="info-text">
+        <a href="tel:+420722752056">+420 722 752 056</a><br>
+        <a href="mailto:info@winelist.cz">info@winelist.cz</a><br>
+        <a href="https://www.instagram.com/winelistkarlin/" target="_blank">@winelistkarlin</a>
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="map-placeholder">
+      <div class="map-pin">
+        <div class="map-pin-dot"></div>
+        <div class="map-pin-label">WINELIST KARLÍN</div>
+        <div class="map-pin-addr">Křižíkova 180/28<br>Praha 8 – Karlín</div>
+        <a href="https://maps.app.goo.gl/e5W68S2VkHtwcxn78" target="_blank" class="map-link" data-cs="Otevřít v Google Maps →" data-en="Open in Google Maps →">Otevřít v Google Maps →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="footer-brand">Wine<span>List</span></div>
+    <div class="footer-tagline">…tak trochu jiný wine bar</div>
+  </div>
+  <div style="font-size:0.7rem;color:var(--warm-gray);text-align:center;line-height:1.8;">
+    Křižíkova 180/28, Praha 8 – Karlín<br>
+    info@winelist.cz · +420 722 752 056
+  </div>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/winelistkarlin/" target="_blank">@winelistkarlin</a>
+  </div>
+</footer>
+
+<script>
+  // ── LANGUAGE ──
+  function setLang(lang) {
+    document.getElementById('btn-cs').classList.toggle('active', lang === 'cs');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-cs]').forEach(el => {
+      const val = el.getAttribute('data-' + lang);
+      if (val !== null) el.innerHTML = val;
+    });
+    try { localStorage.setItem('wl-lang', lang); } catch(e){}
+  }
+
+  // Restore saved preference
+  try { const s = localStorage.getItem('wl-lang'); if (s === 'en') setLang('en'); } catch(e){}
+
+  // ── NAVBAR ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', scrollY > 80);
+  }, { passive: true });
+
+  // ── REVEAL ──
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries, o) => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); o.unobserve(e.target); }});
+    }, {threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+  }
+
+  // ── SMOOTH SCROLL ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>
+

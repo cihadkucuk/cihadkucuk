@@ -1,0 +1,1582 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ye's Kafe | Wine & Brunch — Karlín, Prague</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --warm-white: #FAF7F2;
+    --ink: #1C1810;
+    --brown: #5C4A32;
+    --wine: #7B2D3E;
+    --gold: #C4973A;
+    --sage: #8A9A7B;
+    --terracotta: #C47A5A;
+    --muted: #9E9080;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    cursor: none;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--wine);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid var(--wine);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s ease, width 0.3s, height 0.3s;
+    mix-blend-mode: multiply;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 80%, rgba(123,45,62,0.35) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(196,151,58,0.15) 0%, transparent 50%);
+  }
+
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-size: clamp(56px, 6vw, 90px);
+    font-weight: 300;
+    line-height: 0.95;
+    color: var(--warm-white);
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    margin-top: 40px;
+    line-height: 2;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+  }
+
+  .hero-cta {
+    margin-top: 56px;
+    display: flex;
+    gap: 20px;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 14px 36px;
+    background: var(--wine);
+    color: var(--warm-white);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  .btn-ghost {
+    display: inline-block;
+    padding: 14px 36px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .btn-ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* Hero right: visual */
+  .hero-right {
+    background: var(--warm-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px;
+  }
+
+  .hero-illustration {
+    width: 100%;
+    max-width: 400px;
+    opacity: 0;
+    animation: fadeIn 1.4s ease 0.6s forwards;
+  }
+
+  /* Floating badge */
+  .rating-badge {
+    position: absolute;
+    bottom: 60px;
+    right: 60px;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 20px 28px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+  }
+  .rating-badge strong {
+    display: block;
+    font-size: 36px;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    mix-blend-mode: normal;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--warm-white);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    mix-blend-mode: difference;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+    white-space: nowrap;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: color 0.3s;
+    mix-blend-mode: difference;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── ABOUT ── */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+  }
+
+  .about-text {
+    padding: 120px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--wine);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--wine);
+  }
+
+  .about-heading {
+    font-size: clamp(36px, 3.5vw, 54px);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 32px;
+    color: var(--ink);
+  }
+  .about-heading em { color: var(--wine); }
+
+  .about-body {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--brown);
+    font-weight: 300;
+    max-width: 440px;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+    padding-top: 64px;
+    border-top: 1px solid rgba(92,74,50,0.15);
+  }
+  .stat-num {
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--wine);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .about-visual {
+    background: var(--brown);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(196,151,58,0.2) 0%, transparent 70%);
+  }
+
+  .wine-graphic {
+    width: 240px;
+    opacity: 0.9;
+  }
+
+  /* ── MENU ── */
+  .menu-section {
+    padding: 120px 80px;
+    background: var(--warm-white);
+  }
+
+  .menu-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 80px;
+  }
+
+  .menu-title {
+    font-size: clamp(48px, 5vw, 72px);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .menu-card {
+    background: var(--cream);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: none;
+  }
+  .menu-card:hover {
+    background: var(--ink);
+    transform: translateY(-4px);
+  }
+  .menu-card:hover .card-title,
+  .menu-card:hover .card-body { color: var(--warm-white); }
+  .menu-card:hover .card-icon { opacity: 0.2; }
+  .menu-card:hover .card-tag { color: var(--gold); }
+
+  .card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    transition: color 0.4s;
+  }
+
+  .card-title {
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 16px;
+    transition: color 0.4s;
+  }
+
+  .card-body {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--brown);
+    font-weight: 300;
+    transition: color 0.4s;
+  }
+
+  .card-icon {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    font-size: 80px;
+    opacity: 0.06;
+    transition: opacity 0.4s;
+    line-height: 1;
+  }
+
+  /* ── WINE BAR ── */
+  .wine-section {
+    background: var(--ink);
+    padding: 120px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wine-section::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,45,62,0.3) 0%, transparent 70%);
+  }
+
+  .wine-text .section-label { color: var(--gold); }
+  .wine-text .section-label::after { background: var(--gold); }
+
+  .wine-heading {
+    font-size: clamp(40px, 4vw, 60px);
+    font-weight: 300;
+    color: var(--warm-white);
+    line-height: 1.15;
+    margin-bottom: 28px;
+  }
+  .wine-heading em { color: var(--wine); font-style: italic; }
+
+  .wine-body {
+    font-size: 18px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .wine-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .wine-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    color: rgba(255,255,255,0.7);
+    font-size: 17px;
+    font-weight: 300;
+  }
+  .wine-list li::before {
+    content: '—';
+    color: var(--wine);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+
+  .wine-bottles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    position: relative;
+  }
+
+  .bottle-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 36px 28px;
+    transition: all 0.4s;
+    cursor: none;
+  }
+  .bottle-card:hover {
+    background: rgba(123,45,62,0.2);
+    border-color: rgba(123,45,62,0.4);
+  }
+  .bottle-region {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .bottle-name {
+    font-size: 22px;
+    color: var(--warm-white);
+    font-weight: 300;
+    margin-bottom: 8px;
+  }
+  .bottle-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.6;
+  }
+
+  /* ── REVIEWS ── */
+  .reviews-section {
+    padding: 120px 80px;
+    background: var(--cream);
+    overflow: hidden;
+  }
+
+  .reviews-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .reviews-title {
+    font-size: clamp(42px, 4.5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  .reviews-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .review-card {
+    background: var(--warm-white);
+    padding: 48px 40px;
+    position: relative;
+  }
+
+  .review-quote {
+    font-size: 72px;
+    color: var(--wine);
+    line-height: 0.5;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    margin-bottom: 24px;
+    opacity: 0.4;
+  }
+
+  .review-text {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--brown);
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 32px;
+  }
+
+  .review-author {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .review-stars {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+
+  /* ── INFO / VISIT ── */
+  .visit-section {
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    min-height: 60vh;
+  }
+
+  .visit-info {
+    padding: 100px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .visit-heading {
+    font-size: clamp(40px, 4vw, 60px);
+    font-weight: 300;
+    margin-bottom: 64px;
+    color: var(--ink);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 64px;
+  }
+
+  .info-block {}
+  .info-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .info-value {
+    font-size: 18px;
+    color: var(--ink);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .info-value a {
+    color: var(--wine);
+    text-decoration: none;
+  }
+  .info-value a:hover { text-decoration: underline; }
+
+  .visit-map {
+    background: var(--sage);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 380px;
+  }
+
+  .map-placeholder {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .map-placeholder iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: sepia(0.3) saturate(0.8);
+  }
+  /* Link-only client offer pages */
+  .public-site {
+    position: relative;
+    z-index: 1;
+  }
+
+  .client-offer-page {
+    display: none;
+    min-height: 100vh;
+    padding: 110px 60px 70px;
+    background: linear-gradient(160deg, #f7f2ea 0%, #efe3d2 60%, #e8d7bd 100%);
+  }
+
+  .link-only-mode .public-site {
+    display: none;
+  }
+
+  .link-only-mode .client-offer-page:target {
+    display: block;
+  }
+
+  .offer-shell {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 48px;
+    border: 1px solid rgba(28,24,16,0.12);
+    background: rgba(250,247,242,0.95);
+    box-shadow: 0 28px 60px rgba(28,24,16,0.09);
+  }
+
+  .offer-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--wine);
+    margin-bottom: 18px;
+  }
+
+  .offer-title {
+    font-size: clamp(42px, 4vw, 64px);
+    font-weight: 300;
+    line-height: 0.97;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .offer-summary {
+    max-width: 760px;
+    font-size: 20px;
+    line-height: 1.65;
+    color: var(--brown);
+    font-weight: 300;
+  }
+
+  .offer-meta {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .offer-meta-card {
+    border: 1px solid rgba(28,24,16,0.1);
+    background: #fffaf4;
+    padding: 14px 16px;
+  }
+
+  .offer-meta-card span {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .offer-meta-card strong {
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .offer-grid {
+    margin-top: 34px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .offer-card {
+    border: 1px solid rgba(28,24,16,0.1);
+    background: #fffaf4;
+    padding: 24px;
+  }
+
+  .offer-card h2 {
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+
+  .offer-card ul {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+  }
+
+  .offer-card li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--brown);
+    font-weight: 300;
+  }
+
+  .offer-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .offer-footer {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .offer-back {
+    display: inline-block;
+    padding: 12px 22px;
+    border: 1px solid rgba(28,24,16,0.2);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+  }
+
+  .offer-back:hover {
+    border-color: var(--wine);
+    color: var(--wine);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    padding: 80px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .footer-brand {
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--warm-white);
+    margin-bottom: 20px;
+  }
+  .footer-brand em { color: var(--gold); }
+
+  .footer-tagline {
+    font-size: 16px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 280px;
+  }
+
+  .footer-col-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .footer-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-list li {
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 28px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--ink);
+  }
+  .footer-bottom span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── HORIZONTAL SCROLL MARQUEE ── */
+  .marquee-band {
+    background: var(--wine);
+    padding: 18px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  .marquee-inner {
+    display: inline-flex;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-inner span {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+    padding: 0 48px;
+  }
+  .marquee-inner span.dot::after {
+    content: ' ·';
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── DECORATIVE LINE ── */
+  .deco-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--wine), transparent);
+    margin: 0 auto;
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    .menu-card, .bottle-card { cursor: pointer; }
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .about, .visit-section { grid-template-columns: 1fr; }
+    .about-visual { min-height: 300px; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .wine-section { grid-template-columns: 1fr; }
+    .reviews-track { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; }
+    nav {
+      padding: 16px 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(6px);
+    }
+    .nav-logo {
+      mix-blend-mode: normal;
+      color: var(--warm-white);
+    }
+    .nav-links {
+      width: 100%;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      mix-blend-mode: normal;
+      color: rgba(255,255,255,0.82);
+    }
+    .hero-cta { flex-wrap: wrap; }
+    .btn-primary, .btn-ghost { padding: 12px 24px; }
+    .menu-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 52px;
+    }
+    .menu-header p {
+      text-align: left !important;
+      max-width: none !important;
+    }
+    .info-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .visit-map { min-height: 320px; }
+    .hero-left, .about-text, .visit-info, .menu-section, .wine-section, .reviews-section { padding: 60px 28px; }
+    footer, .footer-bottom { padding: 60px 28px; }
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .footer-bottom span { letter-spacing: 0.08em; }
+    .client-offer-page { padding: 90px 28px 50px; }
+    .offer-shell { padding: 30px 24px; }
+    .offer-meta { grid-template-columns: 1fr; }
+    .offer-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .hero-title { font-size: clamp(42px, 12vw, 64px); }
+    .offer-title { font-size: clamp(34px, 10vw, 48px); }
+    .offer-summary { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="public-site">
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Ye's Kafe</a>
+  <ul class="nav-links">
+    <li><a href="#about">Story</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#wine">Wine</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-noise"></div>
+    <div class="hero-tag">Espresso bar · Brunch · Natural wine · Karlín, Prague</div>
+    <h1 class="hero-title">
+      Where coffee<br>meets <em>wine</em>
+    </h1>
+    <p class="hero-subtitle">
+      Za Karlínským přístavem 699/18<br>
+      Mon – Fri  &nbsp; 8:00 – 19:00<br>
+      Sat – Sun &nbsp; 10:00 – 19:00
+    </p>
+    <div class="hero-cta">
+      <a href="#visit" class="btn-primary">Find us</a>
+      <a href="#menu" class="btn-ghost">Explore menu</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <!-- SVG illustration: wine glass + coffee cup -->
+    <svg class="hero-illustration" viewBox="0 0 400 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- background circle -->
+      <circle cx="200" cy="240" r="190" fill="#EDE8DF"/>
+      <!-- wine glass -->
+      <g transform="translate(80,60)">
+        <!-- bowl -->
+        <path d="M60 10 Q10 80 30 150 Q50 200 80 200 Q110 200 130 150 Q150 80 100 10 Z" fill="#C47A5A" opacity="0.15" stroke="#5C4A32" stroke-width="1.5"/>
+        <!-- wine fill -->
+        <path d="M50 110 Q50 180 80 200 Q110 200 115 180 Q122 150 110 110 Z" fill="#7B2D3E" opacity="0.5"/>
+        <!-- stem -->
+        <line x1="80" y1="200" x2="80" y2="300" stroke="#5C4A32" stroke-width="2"/>
+        <!-- base -->
+        <ellipse cx="80" cy="305" rx="45" ry="8" fill="#5C4A32" opacity="0.3"/>
+        <!-- highlight -->
+        <path d="M55 60 Q50 100 55 130" stroke="white" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+      </g>
+      <!-- coffee cup -->
+      <g transform="translate(210, 220)">
+        <!-- cup body -->
+        <path d="M10 10 L20 90 Q40 105 60 90 L70 10 Z" fill="#C4973A" opacity="0.25" stroke="#5C4A32" stroke-width="1.5"/>
+        <!-- coffee fill -->
+        <ellipse cx="40" cy="14" rx="30" ry="6" fill="#5C4A32" opacity="0.5"/>
+        <!-- saucer -->
+        <ellipse cx="40" cy="95" rx="45" ry="8" fill="#5C4A32" opacity="0.2"/>
+        <!-- handle -->
+        <path d="M70 35 Q95 35 95 55 Q95 75 70 75" stroke="#5C4A32" stroke-width="2" fill="none"/>
+        <!-- steam -->
+        <path d="M25 0 Q20 -15 25 -30" stroke="#9E9080" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <path d="M40 -5 Q35 -20 40 -35" stroke="#9E9080" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+        <path d="M55 0 Q50 -15 55 -28" stroke="#9E9080" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+      </g>
+      <!-- botanical sprig -->
+      <g opacity="0.4">
+        <path d="M30 350 Q80 320 130 340 Q180 360 220 330" stroke="#8A9A7B" stroke-width="1.5" fill="none"/>
+        <ellipse cx="80" cy="328" rx="12" ry="7" fill="#8A9A7B" transform="rotate(-20 80 328)"/>
+        <ellipse cx="130" cy="342" rx="14" ry="7" fill="#8A9A7B" transform="rotate(10 130 342)"/>
+        <ellipse cx="180" cy="335" rx="12" ry="6" fill="#8A9A7B" transform="rotate(-10 180 335)"/>
+      </g>
+      <!-- decorative dots -->
+      <circle cx="350" cy="80" r="4" fill="#C4973A" opacity="0.4"/>
+      <circle cx="60" cy="420" r="6" fill="#7B2D3E" opacity="0.3"/>
+      <circle cx="340" cy="380" r="3" fill="#8A9A7B" opacity="0.5"/>
+    </svg>
+
+    <div class="rating-badge">
+      <strong>4.5</strong>
+      Google Rating<br>262+ Reviews
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-band">
+  <div class="marquee-inner">
+    <span class="dot">Specialty Coffee</span>
+    <span class="dot">Natural Wine</span>
+    <span class="dot">Weekend Brunch</span>
+    <span class="dot">Wine Shop</span>
+    <span class="dot">Tasting Room</span>
+    <span class="dot">Karlín Prague</span>
+    <span class="dot">Riverside Location</span>
+    <span class="dot">Specialty Coffee</span>
+    <span class="dot">Natural Wine</span>
+    <span class="dot">Weekend Brunch</span>
+    <span class="dot">Wine Shop</span>
+    <span class="dot">Tasting Room</span>
+    <span class="dot">Karlín Prague</span>
+    <span class="dot">Riverside Location</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-text">
+    <div class="section-label reveal">Our Story</div>
+    <h2 class="about-heading reveal">
+      A sunlit <em>atelier</em><br>by the river
+    </h2>
+    <p class="about-body reveal">
+      Founded by Ye Qian, a wine educator and one of Prague's leading voices in the low-intervention wine scene, Ye's Kafe is more than a café. It's an airy, glass-fronted retreat where carefully curated natural wines meet exceptional specialty coffee — steps from the Vltava in the heart of Karlín.
+    </p>
+    <p class="about-body reveal" style="margin-top:20px;">
+      The shelves are lined with bottles from small Czech and European producers. The space doubles as a wine shop and intimate tasting room — warm, thoughtful, unforgettable.
+    </p>
+    <div class="about-stats reveal">
+      <div>
+        <div class="stat-num">4.5</div>
+        <div class="stat-label">Google Rating</div>
+      </div>
+      <div>
+        <div class="stat-num">262+</div>
+        <div class="stat-label">Reviews</div>
+      </div>
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Prague Locations</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-visual">
+    <svg class="wine-graphic" viewBox="0 0 300 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="500" fill="#5C4A32"/>
+      <circle cx="150" cy="250" r="180" fill="rgba(196,151,58,0.08)"/>
+      <!-- Large wine bottle -->
+      <g transform="translate(95, 30)">
+        <rect x="30" y="0" width="50" height="30" rx="4" fill="#C4973A" opacity="0.6"/>
+        <path d="M20 30 Q10 60 10 80 L10 330 Q10 360 55 360 Q100 360 100 330 L100 80 Q100 60 90 30 Z" fill="#F5F0E8" opacity="0.12" stroke="#C4973A" stroke-width="1.5"/>
+        <!-- wine level -->
+        <path d="M11 200 Q11 310 55 335 Q99 310 99 200 Z" fill="#7B2D3E" opacity="0.6"/>
+        <!-- label -->
+        <rect x="20" y="160" width="70" height="60" rx="2" fill="#F5F0E8" opacity="0.15"/>
+        <text x="55" y="185" text-anchor="middle" font-family="serif" font-size="9" fill="#F5F0E8" opacity="0.7">YE'S</text>
+        <text x="55" y="200" text-anchor="middle" font-family="serif" font-size="7" fill="#F5F0E8" opacity="0.5">NATURAL WINE</text>
+        <!-- highlight -->
+        <path d="M15 100 Q13 180 15 240" stroke="white" stroke-width="2.5" opacity="0.15" stroke-linecap="round"/>
+      </g>
+      <!-- leaf decorations -->
+      <g opacity="0.3">
+        <ellipse cx="60" cy="400" rx="20" ry="10" fill="#8A9A7B" transform="rotate(-30 60 400)"/>
+        <ellipse cx="80" cy="415" rx="16" ry="8" fill="#8A9A7B" transform="rotate(-10 80 415)"/>
+        <ellipse cx="230" cy="120" rx="18" ry="9" fill="#8A9A7B" transform="rotate(25 230 120)"/>
+        <ellipse cx="245" cy="140" rx="14" ry="7" fill="#8A9A7B" transform="rotate(45 245 140)"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="menu-header reveal">
+    <div>
+      <div class="section-label">What We Serve</div>
+      <h2 class="menu-title">Our Menu</h2>
+    </div>
+    <p style="font-size:16px; color:var(--muted); font-weight:300; max-width:260px; text-align:right; line-height:1.8;">
+      Seasonal. Creative.<br>Always honest.
+    </p>
+  </div>
+
+  <div class="menu-grid">
+    <div class="menu-card reveal">
+      <div class="card-tag">Morning</div>
+      <h3 class="card-title">Specialty Coffee</h3>
+      <p class="card-body">Exceptional espresso, silky latte, smooth cappuccino, and matcha — crafted by passionate baristas. Among the best in Prague.</p>
+      <div class="card-icon">☕</div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="card-tag">Brunch</div>
+      <h3 class="card-title">Bao & Omelettes</h3>
+      <p class="card-body">Signature bao buns, bao omelettes, gyoza, and bacon pancakes. Seasonal dishes with creative, modern flavours. 200–300 CZK per person.</p>
+      <div class="card-icon">🥢</div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="card-tag">All Day</div>
+      <h3 class="card-title">Natural Wine</h3>
+      <p class="card-body">A rotating blackboard of wines by the glass. Curated bottles from small Czech and European producers — available to drink in or take home.</p>
+      <div class="card-icon">🍷</div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="card-tag">Light Bites</div>
+      <h3 class="card-title">Soups & Ramen</h3>
+      <p class="card-body">Daily soup, bao ramen, and seasonal light dishes to fuel a morning by the river or a slow afternoon with a glass of wine.</p>
+      <div class="card-icon">🍜</div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="card-tag">Drinks</div>
+      <h3 class="card-title">Cold & Soft</h3>
+      <p class="card-body">Refreshing homemade lemonades, affogato, cold brew, and seasonal non-alcoholic options — perfect for a break on the riverside bike path.</p>
+      <div class="card-icon">🍋</div>
+    </div>
+    <div class="menu-card reveal">
+      <div class="card-tag">Shop</div>
+      <h3 class="card-title">Wine & Merch</h3>
+      <p class="card-body">Take a bottle home. Ye's branded mugs available in espresso, cappuccino, and latte sizes — a piece of the kafe for your own kitchen.</p>
+      <div class="card-icon">🛍️</div>
+    </div>
+  </div>
+</section>
+
+<!-- WINE -->
+<section class="wine-section" id="wine">
+  <div class="wine-text">
+    <div class="section-label reveal">The Wine Programme</div>
+    <h2 class="wine-heading reveal">
+      Low-intervention.<br><em>High passion.</em>
+    </h2>
+    <p class="wine-body reveal">
+      Ye Qian is one of Prague's most respected voices in the natural wine movement. Every bottle on the shelf has been personally chosen — small producers, honest winemaking, vivid terroir from across Czechia and Europe.
+    </p>
+    <ul class="wine-list reveal">
+      <li>Czech natural & biodynamic producers</li>
+      <li>Small European winemakers</li>
+      <li>Rotating wines by the glass</li>
+      <li>Wine shop — bottles to take home</li>
+      <li>Intimate tasting room atmosphere</li>
+    </ul>
+  </div>
+  <div class="wine-bottles reveal">
+    <div class="bottle-card">
+      <div class="bottle-region">Bohemia, CZ</div>
+      <div class="bottle-name">Czech Natural</div>
+      <div class="bottle-desc">Local winemakers crafting honest, expressive bottles from Bohemian and Moravian vineyards.</div>
+    </div>
+    <div class="bottle-card">
+      <div class="bottle-region">Central Europe</div>
+      <div class="bottle-name">Low-intervention</div>
+      <div class="bottle-desc">Minimal sulphites, no additives. Wines that reflect their place and vintage without interference.</div>
+    </div>
+    <div class="bottle-card">
+      <div class="bottle-region">By the Glass</div>
+      <div class="bottle-name">Rotating List</div>
+      <div class="bottle-desc">Blackboard changes weekly. Ask the team — they know every bottle and are delighted to guide you.</div>
+    </div>
+    <div class="bottle-card">
+      <div class="bottle-region">Take Home</div>
+      <div class="bottle-name">Wine Shop</div>
+      <div class="bottle-desc">Buy any bottle from the shelf to enjoy at home. Curated for quality, value, and character.</div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section">
+  <div class="reviews-header reveal">
+    <div class="section-label" style="justify-content:center; margin-bottom:20px;">What People Say</div>
+    <h2 class="reviews-title">Loved by <em>locals</em><br>& travellers alike</h2>
+  </div>
+  <div class="reviews-track">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-quote">"</div>
+      <p class="review-text">I love this place — it's my favourite! Food is amazing and coffee is super. Every time I go the staff is super nice. The bao buns and bacon pancakes are highly recommended.</p>
+      <div class="review-author">Google Review · 5/5</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-quote">"</div>
+      <p class="review-text">A cozy place close to the river, perfect to relax and unwind. They serve amazing bao omelettes and pretty good ramen. Coffee is also top-notch. Been here 25+ times.</p>
+      <div class="review-author">Alexander C. · Foursquare</div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-quote">"</div>
+      <p class="review-text">A gentle, elegant retreat for lovers of natural wine. This airy café feels like stepping into someone's sunlit atelier — warm, thoughtful and deeply satisfying.</p>
+      <div class="review-author">Man vs Globe · Editorial</div>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit-section" id="visit">
+  <div class="visit-info">
+    <h2 class="visit-heading reveal">Come & Visit Us</h2>
+    <div class="info-grid">
+      <div class="info-block reveal">
+        <div class="info-label">Address</div>
+        <div class="info-value">Za Karlínským přístavem 699/18<br>186 00 Karlín, Prague<br><em style="font-size:14px; color:var(--muted);">At Port Karolína, by the river</em></div>
+      </div>
+      <div class="info-block reveal">
+        <div class="info-label">Opening Hours</div>
+        <div class="info-value">
+          Mon – Fri: 8:00 – 19:00<br>
+          Sat – Sun: 10:00 – 19:00
+        </div>
+      </div>
+      <div class="info-block reveal">
+        <div class="info-label">Contact</div>
+        <div class="info-value">
+          <a href="tel:+420725583380">+420 725 583 380</a><br>
+          <a href="mailto:yeskafewine@gmail.com">yeskafewine@gmail.com</a>
+        </div>
+      </div>
+      <div class="info-block reveal">
+        <div class="info-label">Features</div>
+        <div class="info-value">
+          Wi-Fi · Outdoor Seating<br>
+          Wheelchair Accessible<br>
+          Reservations · Cards accepted
+        </div>
+      </div>
+      <div class="info-block reveal">
+        <div class="info-label">Instagram</div>
+        <div class="info-value"><a href="https://instagram.com/yeskafewine" target="_blank">@yeskafewine</a></div>
+      </div>
+      <div class="info-block reveal">
+        <div class="info-label">Sister Location</div>
+        <div class="info-value">Ye's Kafe Studio<br><span style="font-size:14px; color:var(--muted);">Holešovice, Prague</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="visit-map">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2559.8!2d14.4494!3d50.0964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b95f926c00f39%3A0x8365b7467b598a2b!2sYe&#39;s%20kafe%20%7C%20wine!5e0!3m2!1sen!2scz!4v1"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Ye's <em>Kafe</em></div>
+    <p class="footer-tagline">Espresso bar, brunch place & good wine — in the heart of Karlín, Prague.</p>
+  </div>
+  <div>
+    <div class="footer-col-title">Hours</div>
+    <ul class="footer-list">
+      <li>Mon – Fri: 8:00 – 19:00</li>
+      <li>Sat – Sun: 10:00 – 19:00</li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Connect</div>
+    <ul class="footer-list">
+      <li>@yeskafewine</li>
+      <li>yeskafewine@gmail.com</li>
+      <li>+420 725 583 380</li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2025 Ye's Kafe | Wine — Karlín, Prague</span>
+  <span>Za Karlínským přístavem 699/18</span>
+</div>
+
+</div>
+
+<!-- Link-only client offer pages (share direct hash links only) -->
+<section class="client-offer-page" id="offer-visibility-launch">
+  <div class="offer-shell">
+    <div class="offer-kicker">Private Client Page</div>
+    <h1 class="offer-title">Visibility Launch Blueprint</h1>
+    <p class="offer-summary">
+      Prepared as a private offer page for client review. This page is intended to be opened only through a direct link.
+    </p>
+    <div class="offer-meta">
+      <div class="offer-meta-card">
+        <span>Timeline</span>
+        <strong>4 weeks</strong>
+      </div>
+      <div class="offer-meta-card">
+        <span>Delivery</span>
+        <strong>Website + SEO</strong>
+      </div>
+      <div class="offer-meta-card">
+        <span>Primary Goal</span>
+        <strong>Local discoverability</strong>
+      </div>
+    </div>
+    <div class="offer-grid">
+      <article class="offer-card">
+        <h2>Scope</h2>
+        <ul>
+          <li>Homepage and service page structure refresh</li>
+          <li>Search intent based heading and copy architecture</li>
+          <li>Google Business Profile alignment with landing content</li>
+        </ul>
+      </article>
+      <article class="offer-card">
+        <h2>Expected Outcomes</h2>
+        <ul>
+          <li>Stronger local keyword visibility</li>
+          <li>Cleaner service communication for higher trust</li>
+          <li>Better lead quality from organic traffic</li>
+        </ul>
+      </article>
+    </div>
+    <div class="offer-footer">
+      <a href="#" class="offer-back">Back to Main Website</a>
+    </div>
+  </div>
+</section>
+
+<section class="client-offer-page" id="offer-conversion-system">
+  <div class="offer-shell">
+    <div class="offer-kicker">Private Client Page</div>
+    <h1 class="offer-title">Conversion System Build</h1>
+    <p class="offer-summary">
+      Focused execution package for businesses that need a clearer conversion path and stronger inquiry quality.
+    </p>
+    <div class="offer-meta">
+      <div class="offer-meta-card">
+        <span>Timeline</span>
+        <strong>5 weeks</strong>
+      </div>
+      <div class="offer-meta-card">
+        <span>Delivery</span>
+        <strong>UX + Messaging</strong>
+      </div>
+      <div class="offer-meta-card">
+        <span>Primary Goal</span>
+        <strong>Qualified inquiries</strong>
+      </div>
+    </div>
+    <div class="offer-grid">
+      <article class="offer-card">
+        <h2>Scope</h2>
+        <ul>
+          <li>Message hierarchy and CTA sequence redesign</li>
+          <li>Lead form optimization with scope qualifiers</li>
+          <li>Contact flow alignment with campaign landing pages</li>
+        </ul>
+      </article>
+      <article class="offer-card">
+        <h2>Expected Outcomes</h2>
+        <ul>
+          <li>Higher intent conversations from form submissions</li>
+          <li>Fewer low-fit leads and less time wasted</li>
+          <li>Improved conversion consistency across channels</li>
+        </ul>
+      </article>
+    </div>
+    <div class="offer-footer">
+      <a href="#" class="offer-back">Back to Main Website</a>
+    </div>
+  </div>
+</section>
+
+<section class="client-offer-page" id="offer-brand-media-alignment">
+  <div class="offer-shell">
+    <div class="offer-kicker">Private Client Page</div>
+    <h1 class="offer-title">Brand and Media Alignment</h1>
+    <p class="offer-summary">
+      Private product page for clients that want a single visual and communication system across social, website, and campaign outputs.
+    </p>
+    <div class="offer-meta">
+      <div class="offer-meta-card">
+        <span>Timeline</span>
+        <strong>6 weeks</strong>
+      </div>
+      <div class="offer-meta-card">
+        <span>Delivery</span>
+        <strong>Brand + Content</strong>
+      </div>
+      <div class="offer-meta-card">
+        <span>Primary Goal</span>
+        <strong>Consistent positioning</strong>
+      </div>
+    </div>
+    <div class="offer-grid">
+      <article class="offer-card">
+        <h2>Scope</h2>
+        <ul>
+          <li>Visual direction and layout system for social assets</li>
+          <li>Website content tone and typography consistency pass</li>
+          <li>Template set for repeatable campaign launches</li>
+        </ul>
+      </article>
+      <article class="offer-card">
+        <h2>Expected Outcomes</h2>
+        <ul>
+          <li>Higher recognition from repeated brand cues</li>
+          <li>More coherent brand story across channels</li>
+          <li>Faster content production with aligned templates</li>
+        </ul>
+      </article>
+    </div>
+    <div class="offer-footer">
+      <a href="#" class="offer-back">Back to Main Website</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  function syncLinkOnlyPages() {
+    const isLinkOnlyPage = window.location.hash.startsWith('#offer-');
+    document.body.classList.toggle('link-only-mode', isLinkOnlyPage);
+  }
+
+  window.addEventListener('hashchange', syncLinkOnlyPages);
+  syncLinkOnlyPages();
+
+  // Custom cursor (desktop only)
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (hasFinePointer && cursor && ring) {
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx - 5 + 'px';
+      cursor.style.top = my - 5 + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx - 18 + 'px';
+      ring.style.top = ry - 18 + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button, .menu-card, .bottle-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.marginLeft = '-12px';
+        ring.style.marginTop = '-12px';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+        ring.style.marginLeft = '0';
+        ring.style.marginTop = '0';
+      });
+    });
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
+
