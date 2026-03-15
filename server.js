@@ -124,6 +124,14 @@ app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
 
+app.get("/public/sitemap.xml", (_req, res) => {
+  res.redirect(301, "/sitemap.xml");
+});
+
+app.get("/public/robots.txt", (_req, res) => {
+  res.redirect(301, "/robots.txt");
+});
+
 app.post("/api/contact", async (req, res) => {
   try {
     if (!isAllowedOrigin(req)) {

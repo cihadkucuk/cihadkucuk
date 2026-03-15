@@ -107,7 +107,7 @@ const baseLocaleCopy = {
   studioosEarlyBadge: "Early Access · 25% off",
   studioosEarlyTitle: "Be among the first studios on the platform.",
   studioosEarlyText: "Leave your email to get early access. We'll reach out with onboarding details and lock in your 25% discount for the first year.",
-  studioosEmailPlaceholder: "studio@yourname.com",
+  studioosEmailPlaceholder: "Enter your email address (e.g. name@company.com)",
   studioosEmailCta: "Get Early Access",
   studioosEmailSending: "Sending...",
   studioosEmailSuccess: "You're on the list — we'll be in touch soon.",
@@ -233,7 +233,7 @@ const localeCopy = {
     studioosEarlyBadge: "Frühzugang · 25% Rabatt",
     studioosEarlyTitle: "Gehören Sie zu den ersten Studios auf der Plattform.",
     studioosEarlyText: "Hinterlassen Sie Ihre E-Mail für frühzeitigen Zugang. Wir melden uns mit Onboarding-Details und sichern Ihnen 25% Rabatt für das erste Jahr.",
-    studioosEmailPlaceholder: "studio@ihrstudio.de",
+    studioosEmailPlaceholder: "Geben Sie Ihre E-Mail-Adresse ein (z. B. name@firma.de)",
     studioosEmailCta: "Frühzugang sichern",
     studioosEmailSending: "Wird gesendet...",
     studioosEmailSuccess: "Sie sind auf der Liste — wir melden uns bald.",
@@ -356,7 +356,7 @@ const localeCopy = {
     studioosEarlyBadge: "Erken Erişim · %25 İndirim",
     studioosEarlyTitle: "Platforma ilk katılan stüdyolar arasında olun.",
     studioosEarlyText: "Erken erişim için e-postanızı bırakın. Onboarding detaylarıyla geri döneceğiz ve ilk yıl için %25 indiriminizi garantileyeceğiz.",
-    studioosEmailPlaceholder: "studyo@adiniz.com",
+    studioosEmailPlaceholder: "Kendi e-posta adresinizi girin (orn. ad@firma.com)",
     studioosEmailCta: "Erken Erişim Al",
     studioosEmailSending: "Gönderiliyor...",
     studioosEmailSuccess: "Listedesiniz — yakında sizinle iletişime geçeceğiz.",
@@ -479,7 +479,7 @@ const localeCopy = {
     studioosEarlyBadge: "Acceso Anticipado · 25% de descuento",
     studioosEarlyTitle: "Sé de los primeros studios en la plataforma.",
     studioosEarlyText: "Deja tu email para obtener acceso anticipado. Te contactaremos con los detalles de incorporación y fijaremos tu 25% de descuento para el primer año.",
-    studioosEmailPlaceholder: "studio@tunombre.com",
+    studioosEmailPlaceholder: "Introduce tu email (p. ej. nombre@empresa.com)",
     studioosEmailCta: "Obtener Acceso Anticipado",
     studioosEmailSending: "Enviando...",
     studioosEmailSuccess: "Estás en la lista — nos pondremos en contacto pronto.",
@@ -602,7 +602,7 @@ const localeCopy = {
     studioosEarlyBadge: "Předčasný přístup · 25% sleva",
     studioosEarlyTitle: "Buďte mezi prvními studii na platformě.",
     studioosEarlyText: "Zanechte e-mail pro předčasný přístup. Ozveme se s informacemi o onboardingu a zafixujeme vaši 25% slevu na první rok.",
-    studioosEmailPlaceholder: "studio@vasejmeno.cz",
+    studioosEmailPlaceholder: "Zadejte svuj e-mail (napr. jmeno@firma.cz)",
     studioosEmailCta: "Získat předčasný přístup",
     studioosEmailSending: "Odesílání...",
     studioosEmailSuccess: "Jste na seznamu — brzy se ozveme.",
@@ -1294,3 +1294,4 @@ function HomeLangSwitcher({ lang, setLang, t }) {
     </div>
   );
 }
+
