@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laderma — Plastic & Aesthetic Surgery Prague | Dr. Zuzana Černá</title>
+  <meta name="description" content="Laderma Clinic Prague — Dr. Zuzana Černá, MD. Expert plastic surgery in Prague 2. Breast augmentation, facelift, rhinoplasty and more. EU certified. International patients welcome." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* =============================================
+       CSS CUSTOM PROPERTIES
+       ============================================= */
+    :root {
+      --blush: #f5ede8;
+      --blush-deep: #edddd5;
+      --charcoal: #1a1a1a;
+      --charcoal-mid: #2d2d2d;
+      --charcoal-light: #3a3a3a;
+      --rose-gold: #c49a6c;
+      --rose-gold-light: #dfc4a5;
+      --rose-gold-dark: #a07c52;
+      --rose-gold-pale: #f0e6da;
+      --white: #ffffff;
+      --text-muted: #6b6b6b;
+      --border-light: rgba(196, 154, 108, 0.2);
+
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 2px 8px rgba(26,26,26,0.08);
+      --shadow-md: 0 8px 24px rgba(26,26,26,0.12);
+      --shadow-lg: 0 16px 48px rgba(26,26,26,0.16);
+
+      --transition: 0.3s ease;
+      --transition-slow: 0.5s ease;
+    }
+
+    /* =============================================
+       RESET & BASE
+       ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--blush);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul { list-style: none; }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: var(--font-body);
+    }
+
+    input, select, textarea {
+      font-family: var(--font-body);
+      font-size: 16px;
+    }
+
+    /* =============================================
+       TYPOGRAPHY HELPERS
+       ============================================= */
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rose-gold);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      line-height: 1.2;
+    }
+
+    h1 { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 500; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 500; }
+    h3 { font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 500; }
+
+    .section-pad { padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 60px); }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* =============================================
+       ANIMATIONS
+       ============================================= */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+
+    /* =============================================
+       STICKY HEADER
+       ============================================= */
+    #site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 0 clamp(20px, 4vw, 48px);
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background var(--transition), box-shadow var(--transition);
+      background: transparent;
+    }
+
+    #site-header.scrolled {
+      background: var(--blush);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .header-logo {
+      font-family: var(--font-heading);
+      font-size: 1.7rem;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--white);
+      transition: color var(--transition);
+      letter-spacing: 0.02em;
+    }
+
+    #site-header.scrolled .header-logo {
+      color: var(--charcoal);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2.5vw, 32px);
+    }
+
+    .header-nav a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
+      transition: color var(--transition);
+      white-space: nowrap;
+    }
+
+    #site-header.scrolled .header-nav a {
+      color: var(--charcoal);
+    }
+
+    .header-nav a:hover { color: var(--rose-gold); }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 22px;
+      background: var(--rose-gold);
+      color: var(--white) !important;
+      border-radius: var(--radius-full);
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background var(--transition), transform var(--transition) !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--rose-gold-dark) !important;
+      transform: translateY(-1px);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      cursor: pointer;
+      z-index: 1100;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all var(--transition);
+    }
+
+    #site-header.scrolled .hamburger span {
+      background: var(--charcoal);
+    }
+
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); background: var(--white); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); background: var(--white); }
+
+    /* Mobile Nav Overlay */
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      background: var(--charcoal);
+      z-index: 1050;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-slow);
+    }
+
+    .mobile-nav.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-nav a {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--white);
+      transition: color var(--transition);
+    }
+
+    .mobile-nav a:hover { color: var(--rose-gold); }
+
+    .mobile-nav .mobile-cta {
+      margin-top: 1rem;
+      padding: 14px 36px;
+      background: var(--rose-gold);
+      border-radius: var(--radius-full);
+      font-style: normal;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    /* =============================================
+       HERO SECTION
+       ============================================= */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--charcoal);
+      overflow: hidden;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(196, 154, 108, 0.25) 0%, rgba(196, 154, 108, 0.05) 50%, transparent 75%),
+                  radial-gradient(ellipse at 20% 80%, rgba(196, 154, 108, 0.15) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      text-align: center;
+      padding: 120px clamp(20px, 5vw, 48px) 80px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--rose-gold-light);
+      border: 1px solid rgba(196, 154, 108, 0.4);
+      border-radius: var(--radius-full);
+      padding: 7px 18px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-content h1 {
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .hero-content h1 em {
+      color: var(--rose-gold);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      color: rgba(255,255,255,0.7);
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      padding: 14px 32px;
+      background: var(--rose-gold);
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      min-height: 44px;
+    }
+
+    .btn-primary:hover {
+      background: var(--rose-gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(196, 154, 108, 0.4);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      padding: 14px 32px;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: border-color var(--transition), background var(--transition), transform var(--transition);
+      min-height: 44px;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--rose-gold);
+      background: rgba(196, 154, 108, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-full);
+      padding: 10px 20px;
+      color: var(--white);
+      font-size: 0.9rem;
+    }
+
+    .hero-badge .stars {
+      color: var(--rose-gold);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+
+    /* =============================================
+       TRUST BAR
+       ============================================= */
+    #trust-bar {
+      background: var(--charcoal-mid);
+      padding: clamp(32px, 5vw, 52px) clamp(20px, 5vw, 60px);
+    }
+
+    .trust-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(24px, 4vw, 48px);
+    }
+
+    .trust-item {
+      text-align: center;
+    }
+
+    .trust-number {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 600;
+      color: var(--rose-gold);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .trust-label {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+
+    /* =============================================
+       PROCEDURES SECTION
+       ============================================= */
+    #procedures {
+      background: var(--blush);
+    }
+
+    #procedures .section-header {
+      text-align: center;
+      margin-bottom: clamp(36px, 5vw, 56px);
+    }
+
+    .procedures-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .procedure-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(196, 154, 108, 0.1);
+    }
+
+    .procedure-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .proc-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--rose-gold-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .proc-icon svg {
+      width: 28px;
+      height: 28px;
+      color: var(--rose-gold-dark);
+    }
+
+    .procedure-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+      color: var(--charcoal);
+    }
+
+    .procedure-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .proc-price {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--rose-gold);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .proc-link {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--rose-gold-dark);
+      transition: color var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .proc-link:hover { color: var(--rose-gold); }
+
+    /* =============================================
+       PRICE COMPARISON
+       ============================================= */
+    #pricing {
+      background: var(--charcoal);
+    }
+
+    #pricing .section-header {
+      text-align: center;
+      margin-bottom: clamp(36px, 5vw, 56px);
+    }
+
+    #pricing h2 {
+      color: var(--white);
+    }
+
+    #pricing .eyebrow {
+      color: var(--rose-gold-light);
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 500px;
+    }
+
+    .price-table th {
+      background: rgba(196, 154, 108, 0.12);
+      color: var(--rose-gold-light);
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 16px 24px;
+      text-align: left;
+    }
+
+    .price-table td {
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .price-table tr:last-child td { border-bottom: none; }
+
+    .price-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+    .price-strikethrough {
+      text-decoration: line-through;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .price-save {
+      color: var(--rose-gold);
+      font-weight: 600;
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-style: italic;
+    }
+
+    .price-laderma {
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .table-notes {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .table-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .table-note-icon {
+      width: 18px;
+      height: 18px;
+      background: rgba(196, 154, 108, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--rose-gold);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    /* =============================================
+       JOURNEY TIMELINE
+       ============================================= */
+    #journey {
+      background: var(--blush-deep);
+    }
+
+    #journey .section-header {
+      text-align: center;
+      margin-bottom: clamp(40px, 6vw, 64px);
+    }
+
+    .timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .timeline-step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .step-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2px solid var(--rose-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--rose-gold);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .step-body { padding-top: 10px; }
+
+    .step-body h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+      color: var(--charcoal);
+    }
+
+    .step-body p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* =============================================
+       ABOUT DR. ČERNÁ
+       ============================================= */
+    #about {
+      background: var(--blush);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(36px, 5vw, 64px);
+      align-items: start;
+    }
+
+    .about-photo-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .doctor-photo-frame {
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      border: 3px solid var(--rose-gold);
+      background: var(--rose-gold-pale);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(196, 154, 108, 0.25);
+    }
+
+    .doctor-photo-frame svg {
+      width: 120px;
+      height: 120px;
+      opacity: 0.5;
+    }
+
+    .doctor-name {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+
+    .doctor-title {
+      font-size: 0.875rem;
+      color: var(--rose-gold-dark);
+      font-weight: 500;
+    }
+
+    .about-content h2 { margin-bottom: 1.25rem; }
+
+    .about-content p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 1.5rem;
+    }
+
+    .tag-pill {
+      padding: 6px 14px;
+      background: var(--rose-gold-pale);
+      border: 1px solid var(--rose-gold-light);
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--rose-gold-dark);
+    }
+
+    /* =============================================
+       TESTIMONIALS
+       ============================================= */
+    #testimonials {
+      background: var(--blush-deep);
+    }
+
+    #testimonials .section-header {
+      text-align: center;
+      margin-bottom: clamp(36px, 5vw, 56px);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .testimonials-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .testimonial-4th {
+      max-width: 520px;
+      margin: 24px auto 0;
+    }
+
+    .testimonial-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(196, 154, 108, 0.1);
+    }
+
+    .testi-stars {
+      color: var(--rose-gold);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .testi-quote {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      color: var(--charcoal);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .testi-quote::before {
+      content: '\201C';
+      color: var(--rose-gold-light);
+      font-size: 3rem;
+      line-height: 0;
+      position: absolute;
+      top: 14px;
+      left: -8px;
+      font-family: var(--font-heading);
+    }
+
+    .testi-quote::after {
+      content: '\201D';
+      color: var(--rose-gold-light);
+      font-size: 3rem;
+      line-height: 0;
+      position: relative;
+      top: 14px;
+      font-family: var(--font-heading);
+    }
+
+    .testi-patient {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .testi-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--rose-gold-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .testi-info { }
+
+    .testi-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--charcoal);
+    }
+
+    .testi-proc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* =============================================
+       SAFETY & STANDARDS
+       ============================================= */
+    #safety {
+      background: var(--charcoal-mid);
+      padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 60px);
+    }
+
+    #safety .section-header {
+      text-align: center;
+      margin-bottom: clamp(36px, 5vw, 56px);
+    }
+
+    #safety h2 { color: var(--white); }
+    #safety .eyebrow { color: var(--rose-gold-light); }
+
+    .safety-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .safety-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      padding: 28px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-lg);
+      transition: background var(--transition);
+    }
+
+    .safety-badge:hover { background: rgba(255,255,255,0.07); }
+
+    .safety-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(196, 154, 108, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .safety-icon svg {
+      width: 28px;
+      height: 28px;
+      color: var(--rose-gold);
+    }
+
+    .safety-badge h3 {
+      font-size: 1rem;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    /* =============================================
+       FAQ ACCORDION
+       ============================================= */
+    #faq {
+      background: var(--blush);
+    }
+
+    #faq .section-header {
+      text-align: center;
+      margin-bottom: clamp(36px, 5vw, 56px);
+    }
+
+    .faq-container {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      text-align: left;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      transition: color var(--transition);
+      min-height: 44px;
+    }
+
+    .faq-question:hover { color: var(--rose-gold-dark); }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--rose-gold-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--rose-gold-dark);
+      transition: transform var(--transition);
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* =============================================
+       CONTACT SECTION
+       ============================================= */
+    #contact {
+      background: var(--blush-deep);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(40px, 6vw, 64px);
+    }
+
+    .contact-form-col h2 {
+      margin-bottom: 8px;
+    }
+
+    .contact-form-col .form-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid rgba(196, 154, 108, 0.25);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      color: var(--charcoal);
+      font-size: 16px;
+      transition: border-color var(--transition);
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--rose-gold);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 15px 28px;
+      background: var(--rose-gold);
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background var(--transition), transform var(--transition);
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    .form-submit:hover:not(:disabled) {
+      background: var(--rose-gold-dark);
+      transform: translateY(-1px);
+    }
+
+    .form-submit:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+
+    .form-success {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 20px;
+      background: rgba(196, 154, 108, 0.12);
+      border: 1px solid var(--rose-gold-light);
+      border-radius: var(--radius-md);
+      color: var(--rose-gold-dark);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 14px;
+    }
+
+    .form-success.show { display: flex; }
+
+    .contact-info-col { }
+
+    .clinic-name-heading {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 500;
+      font-style: italic;
+      color: var(--charcoal);
+      margin-bottom: 4px;
+    }
+
+    .clinic-tagline {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--rose-gold-pale);
+      border: 1px solid var(--rose-gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-icon svg {
+      width: 18px;
+      height: 18px;
+      color: var(--rose-gold-dark);
+    }
+
+    .contact-detail-body { }
+
+    .contact-detail-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--rose-gold-dark);
+      margin-bottom: 2px;
+    }
+
+    .contact-detail-value {
+      font-size: 0.95rem;
+      color: var(--charcoal);
+    }
+
+    .map-placeholder {
+      height: 200px;
+      background: rgba(196, 154, 108, 0.08);
+      border: 1.5px dashed rgba(196, 154, 108, 0.3);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .map-placeholder svg {
+      width: 28px;
+      height: 28px;
+      color: var(--rose-gold);
+    }
+
+    .map-placeholder p {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+
+    .map-placeholder span {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    #footer {
+      background: var(--charcoal);
+      padding: clamp(40px, 6vw, 60px) clamp(20px, 5vw, 60px);
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-style: italic;
+      font-weight: 500;
+      color: var(--rose-gold);
+      margin-bottom: 8px;
+    }
+
+    .footer-tagline {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 28px;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .footer-nav a {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.6);
+      transition: color var(--transition);
+    }
+
+    .footer-nav a:hover { color: var(--rose-gold); }
+
+    .footer-sep {
+      width: 48px;
+      height: 1px;
+      background: rgba(196, 154, 108, 0.3);
+      margin: 0 auto 24px;
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* =============================================
+       FLOATING WHATSAPP BUTTON
+       ============================================= */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 28px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--rose-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(196, 154, 108, 0.5);
+      z-index: 900;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+
+    .whatsapp-float:hover {
+      background: var(--rose-gold-dark);
+      transform: scale(1.1);
+      box-shadow: 0 8px 28px rgba(196, 154, 108, 0.6);
+    }
+
+    .whatsapp-float svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--white);
+    }
+
+    /* =============================================
+       MOBILE STICKY CTA BAR
+       ============================================= */
+    .mobile-sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 890;
+      background: var(--charcoal-mid);
+      padding: 12px 20px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    .mobile-sticky-cta a {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: var(--rose-gold);
+      color: var(--white);
+      text-align: center;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background var(--transition);
+    }
+
+    .mobile-sticky-cta a:hover { background: var(--rose-gold-dark); }
+
+    /* =============================================
+       RESPONSIVE BREAKPOINTS
+       ============================================= */
+    @media (min-width: 640px) {
+      .procedures-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .testimonials-grid-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .trust-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .safety-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .hamburger { display: none; }
+
+      .about-grid {
+        grid-template-columns: 240px 1fr;
+        align-items: start;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .timeline {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 0;
+        position: relative;
+      }
+
+      .timeline::before {
+        content: '';
+        position: absolute;
+        top: 24px;
+        left: 48px;
+        right: 48px;
+        height: 2px;
+        background: var(--rose-gold-light);
+        z-index: 1;
+      }
+
+      .timeline-step {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        flex: 1;
+        gap: 16px;
+        padding: 0 12px;
+      }
+
+      .step-body { padding-top: 0; }
+
+      .testimonials-grid-3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .procedures-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 767px) {
+      .header-nav { display: none; }
+      .hamburger { display: flex; }
+      .mobile-sticky-cta { display: block; }
+
+      .whatsapp-float {
+        bottom: 5.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       STICKY HEADER
+       ============================================= -->
+  <header id="site-header">
+    <a href="#hero" class="header-logo">Laderma</a>
+    <nav class="header-nav" role="navigation" aria-label="Main navigation">
+      <a href="#procedures">Procedures</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">Dr. Černá</a>
+      <a href="#testimonials">Stories</a>
+      <a href="#contact" class="nav-cta">Book Consultation</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <nav class="mobile-nav" id="mobile-nav" role="navigation" aria-label="Mobile navigation">
+    <a href="#procedures" class="mobile-nav-link">Procedures</a>
+    <a href="#pricing" class="mobile-nav-link">Pricing</a>
+    <a href="#about" class="mobile-nav-link">Dr. Černá</a>
+    <a href="#testimonials" class="mobile-nav-link">Stories</a>
+    <a href="#contact" class="mobile-nav-link mobile-cta">Book Consultation</a>
+  </nav>
+
+  <!-- =============================================
+       HERO SECTION
+       ============================================= -->
+  <section id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-tag fade-in">Prague Aesthetic Surgery Clinic</span>
+      <h1 class="fade-in delay-1">
+        Transform in Prague.<br>
+        <em>Expert Surgery.</em><br>
+        European Standards.<br>Exceptional Value.
+      </h1>
+      <p class="hero-sub fade-in delay-2">
+        Dr. Zuzana Černá — MD, Plastic &amp; Aesthetic Surgeon · Laderma Clinic, Prague 2
+      </p>
+      <div class="hero-ctas fade-in delay-3">
+        <a href="#contact" class="btn-primary">Book Free Consultation</a>
+        <a href="#procedures" class="btn-outline">View Procedures</a>
+      </div>
+      <div class="hero-badge fade-in delay-4">
+        <span class="stars">★★★★★</span>
+        <span>4.8 / 5.0 · 25 Google reviews</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       TRUST BAR
+       ============================================= -->
+  <section id="trust-bar" aria-label="Clinic statistics">
+    <div class="trust-grid">
+      <div class="trust-item fade-in">
+        <div class="trust-number">15+</div>
+        <div class="trust-label">Years Experience</div>
+      </div>
+      <div class="trust-item fade-in delay-1">
+        <div class="trust-number">500+</div>
+        <div class="trust-label">Surgeries Performed</div>
+      </div>
+      <div class="trust-item fade-in delay-2">
+        <div class="trust-number">12</div>
+        <div class="trust-label">Countries Served</div>
+      </div>
+      <div class="trust-item fade-in delay-3">
+        <div class="trust-number">4.8★</div>
+        <div class="trust-label">Google Rating</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PROCEDURES SECTION
+       ============================================= -->
+  <section id="procedures" class="section-pad">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow fade-in">Our Procedures</span>
+        <h2 class="fade-in delay-1">Tailored Aesthetic Surgery</h2>
+      </div>
+      <div class="procedures-grid">
+
+        <!-- Breast Augmentation -->
+        <div class="procedure-card fade-in">
+          <div class="proc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21C7 21 3 17 3 12s4-8 9-8 9 3.5 9 8-4 9-9 9z"/>
+              <path d="M8 14c0-2 1.5-4 4-4s4 2 4 4"/>
+            </svg>
+          </div>
+          <h3>Breast Augmentation</h3>
+          <p>Achieve your ideal silhouette with carefully selected implants, tailored to your body type and desired outcome.</p>
+          <span class="proc-price">From €3,200</span>
+          <a href="#contact" class="proc-link">Learn More →</a>
+        </div>
+
+        <!-- Breast Lift -->
+        <div class="procedure-card fade-in delay-1">
+          <div class="proc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l3 6h6l-5 4 2 6-6-4-6 4 2-6-5-4h6z"/>
+            </svg>
+          </div>
+          <h3>Breast Lift</h3>
+          <p>Restore a youthful, lifted contour with a mastopexy designed for natural-looking, lasting results.</p>
+          <span class="proc-price">From €2,800</span>
+          <a href="#contact" class="proc-link">Learn More →</a>
+        </div>
+
+        <!-- Facelift -->
+        <div class="procedure-card fade-in delay-2">
+          <div class="proc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M6 20c0-4 2.5-7 6-7s6 3 6 7"/>
+              <path d="M4 12c-1 1-1 3 0 4"/>
+              <path d="M20 12c1 1 1 3 0 4"/>
+            </svg>
+          </div>
+          <h3>Facelift</h3>
+          <p>Refined, natural-looking facial rejuvenation that turns back the clock while preserving your unique character.</p>
+          <span class="proc-price">From €5,500</span>
+          <a href="#contact" class="proc-link">Learn More →</a>
+        </div>
+
+        <!-- Eyelid Surgery -->
+        <div class="procedure-card fade-in delay-1">
+          <div class="proc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <h3>Eyelid Surgery</h3>
+          <p>Refresh tired, heavy eyelids with blepharoplasty — a subtle transformation that brightens your entire face.</p>
+          <span class="proc-price">From €1,800</span>
+          <a href="#contact" class="proc-link">Learn More →</a>
+        </div>
+
+        <!-- Rhinoplasty -->
+        <div class="procedure-card fade-in delay-2">
+          <div class="proc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3c0 0-3 5-3 10a3 3 0 0 0 6 0c0-5-3-10-3-10z"/>
+              <path d="M9 13c-1.5.5-3 1.5-3 3"/>
+              <path d="M15 13c1.5.5 3 1.5 3 3"/>
+            </svg>
+          </div>
+          <h3>Rhinoplasty</h3>
+          <p>Precise nose reshaping with an emphasis on facial harmony and breathing function, not just aesthetics.</p>
+          <span class="proc-price">From €3,800</span>
+          <a href="#contact" class="proc-link">Learn More →</a>
+        </div>
+
+        <!-- Body Contouring -->
+        <div class="procedure-card fade-in delay-3">
+          <div class="proc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2c-3 0-5 2-5 5v1c0 2 1 4 2 5l-1 5h8l-1-5c1-1 2-3 2-5V7c0-3-2-5-5-5z"/>
+              <path d="M9 13c-2 1-3 2-3 4"/>
+              <path d="M15 13c2 1 3 2 3 4"/>
+            </svg>
+          </div>
+          <h3>Body Contouring</h3>
+          <p>Liposuction, abdominoplasty, and mommy makeover procedures to sculpt and restore your confidence.</p>
+          <span class="proc-price">From €2,500</span>
+          <a href="#contact" class="proc-link">Learn More →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PRICE COMPARISON
+       ============================================= -->
+  <section id="pricing" class="section-pad">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Why Prague?</span>
+        <h2>World-Class Surgery. Exceptional Value.</h2>
+      </div>
+      <div class="table-wrapper fade-in">
+        <table class="price-table" aria-label="Price comparison table">
+          <thead>
+            <tr>
+              <th>Procedure</th>
+              <th>UK Price (avg.)</th>
+              <th>Prague at Laderma</th>
+              <th>You Save</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Breast Augmentation</td>
+              <td><span class="price-strikethrough">£8,000</span></td>
+              <td class="price-laderma">€3,200</td>
+              <td><span class="price-save">~£4,000+</span></td>
+            </tr>
+            <tr>
+              <td>Facelift</td>
+              <td><span class="price-strikethrough">£12,000</span></td>
+              <td class="price-laderma">€5,500</td>
+              <td><span class="price-save">~£6,000+</span></td>
+            </tr>
+            <tr>
+              <td>Eyelid Surgery (Blepharoplasty)</td>
+              <td><span class="price-strikethrough">£4,500</span></td>
+              <td class="price-laderma">€1,800</td>
+              <td><span class="price-save">~£2,500+</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-notes fade-in delay-1">
+        <div class="table-note">
+          <div class="table-note-icon">✓</div>
+          <span>All procedures carried out to full EU medical standards in a certified facility — the same rigorous protocols as any Western European country.</span>
+        </div>
+        <div class="table-note">
+          <div class="table-note-icon">✓</div>
+          <span>Prague is just 2–2.5 hours by flight from the UK, Ireland, Germany, and Scandinavia — making your surgical trip as easy as a city break.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       JOURNEY TIMELINE
+       ============================================= -->
+  <section id="journey" class="section-pad">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow fade-in">Your Experience</span>
+        <h2 class="fade-in delay-1">Simple from Start to Finish</h2>
+      </div>
+      <div class="timeline">
+
+        <div class="timeline-step fade-in">
+          <div class="step-circle">1</div>
+          <div class="step-body">
+            <h3>Free Consultation</h3>
+            <p>Begin with a no-obligation video call or in-person consultation with Dr. Černá. Discuss your goals in a relaxed, private setting.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step fade-in delay-1">
+          <div class="step-circle">2</div>
+          <div class="step-body">
+            <h3>Personalised Plan</h3>
+            <p>Receive a detailed quote, bespoke surgical plan, and pre-operative guidance — all in clear, plain English.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step fade-in delay-2">
+          <div class="step-circle">3</div>
+          <div class="step-body">
+            <h3>Travel to Prague</h3>
+            <p>Fly into Prague — we provide a full city guide and recommended hotels within minutes of our Vinohrady clinic.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step fade-in delay-3">
+          <div class="step-circle">4</div>
+          <div class="step-body">
+            <h3>Surgery &amp; Care</h3>
+            <p>Your procedure with Dr. Černá in our certified theatre, followed by a private recovery room and dedicated nursing care.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step fade-in delay-4">
+          <div class="step-circle">5</div>
+          <div class="step-body">
+            <h3>Follow-Up Support</h3>
+            <p>A comprehensive remote aftercare programme with video follow-ups at 1 week, 1 month, and 3 months after your return home.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       ABOUT DR. ČERNÁ
+       ============================================= -->
+  <section id="about" class="section-pad">
+    <div class="container">
+      <div class="about-grid">
+
+        <div class="about-photo-col fade-in">
+          <div class="doctor-photo-frame" aria-label="Portrait of Dr. Zuzana Černá">
+            <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="50" cy="35" r="22" fill="#c49a6c" opacity="0.5"/>
+              <path d="M14 110c0-20 16-36 36-36s36 16 36 36" fill="#c49a6c" opacity="0.35"/>
+            </svg>
+          </div>
+          <div class="doctor-name">Dr. Zuzana Černá</div>
+          <div class="doctor-title">MD, Plastic &amp; Aesthetic Surgeon</div>
+        </div>
+
+        <div class="about-content fade-in delay-1">
+          <span class="eyebrow">Meet Your Surgeon</span>
+          <h2>A Surgeon Who Truly Listens</h2>
+          <p>
+            With over 15 years of specialist experience in plastic and aesthetic surgery, Dr. Zuzana Černá has built her practice on a foundation of clinical precision and genuine patient connection. Having trained at leading European institutions, she brings a depth of expertise that is reflected in every outcome she achieves.
+          </p>
+          <p>
+            As a female surgeon, Dr. Černá understands her patients from a uniquely personal perspective. Her consultations are characterised by warmth, honesty, and time — she will never rush a decision, and she will always prioritise results that look natural, not operated on. Patients frequently comment on feeling genuinely heard, and on the sense of safety and care that defines the Laderma experience.
+          </p>
+          <p>
+            Laderma clinic operates to full EU medical standards with an on-site anaesthesiology team and private recovery rooms. Dr. Černá is fluent in both Czech and English and regularly welcomes international patients from the UK, Ireland, Germany, Scandinavia, and beyond. All pre- and post-operative documentation is provided in English.
+          </p>
+          <div class="about-tags">
+            <span class="tag-pill">Board Certified</span>
+            <span class="tag-pill">Czech &amp; English</span>
+            <span class="tag-pill">EU Standards</span>
+            <span class="tag-pill">International Patients</span>
+            <span class="tag-pill">Female Surgeon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       TESTIMONIALS
+       ============================================= -->
+  <section id="testimonials" class="section-pad">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow fade-in">Real Patients, Real Results</span>
+        <h2 class="fade-in delay-1">What Our Patients Say</h2>
+      </div>
+
+      <div class="testimonials-grid-3">
+        <!-- Card 1 -->
+        <div class="testimonial-card fade-in">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">Dr Cerna is a wonderful lady and a talented surgeon</p>
+          <div class="testi-patient">
+            <div class="testi-avatar">🇬🇧</div>
+            <div class="testi-info">
+              <div class="testi-name">Sarah M.</div>
+              <div class="testi-proc">UK · Breast Augmentation</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="testimonial-card fade-in delay-1">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">I felt surrounded by professional women who understood my body</p>
+          <div class="testi-patient">
+            <div class="testi-avatar">🇮🇪</div>
+            <div class="testi-info">
+              <div class="testi-name">Claire O.</div>
+              <div class="testi-proc">Ireland · Body Contouring</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="testimonial-card fade-in delay-2">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">Amazing, professional approach from the very first contact</p>
+          <div class="testi-patient">
+            <div class="testi-avatar">🇬🇧</div>
+            <div class="testi-info">
+              <div class="testi-name">Emma R.</div>
+              <div class="testi-proc">UK · Facelift</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4th card centred below -->
+      <div class="testimonial-4th fade-in delay-2">
+        <div class="testimonial-card">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">No pain following surgery and no adverse effects at all</p>
+          <div class="testi-patient">
+            <div class="testi-avatar">🇬🇧</div>
+            <div class="testi-info">
+              <div class="testi-name">Joanne T.</div>
+              <div class="testi-proc">UK · Eyelid Surgery</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =============================================
+       SAFETY & STANDARDS
+       ============================================= -->
+  <section id="safety">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Clinical Standards</span>
+        <h2>Your Safety Is Our First Priority</h2>
+      </div>
+      <div class="safety-grid">
+
+        <div class="safety-badge fade-in">
+          <div class="safety-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <h3>EU Certified Medical Facility</h3>
+        </div>
+
+        <div class="safety-badge fade-in delay-1">
+          <div class="safety-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 8.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V8.5"/>
+              <path d="M2 9l10-7 10 7"/>
+              <path d="M9 21V12h6v9"/>
+              <path d="M12 5v4m-2-2h4"/>
+            </svg>
+          </div>
+          <h3>General Anaesthesia Team On-Site</h3>
+        </div>
+
+        <div class="safety-badge fade-in delay-2">
+          <div class="safety-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+              <path d="M12 15v3"/>
+            </svg>
+          </div>
+          <h3>Private Recovery Rooms</h3>
+        </div>
+
+        <div class="safety-badge fade-in delay-3">
+          <div class="safety-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.0 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.36 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/>
+            </svg>
+          </div>
+          <h3>24/7 Post-Op Support</h3>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FAQ ACCORDION
+       ============================================= -->
+  <section id="faq" class="section-pad">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow fade-in">Frequently Asked Questions</span>
+        <h2 class="fade-in delay-1">Everything You Need to Know</h2>
+      </div>
+      <div class="faq-container" role="list">
+
+        <div class="faq-item fade-in" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            Do you speak English?
+            <div class="faq-icon" aria-hidden="true">+</div>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer-inner">
+              Yes — Dr. Černá and the entire Laderma team are fully fluent in English. All consultations, pre-operative instructions, post-operative documentation, and follow-up communications are provided in clear English. We also assist German-speaking patients in their native language.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item fade-in delay-1" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            How do I arrange travel and accommodation?
+            <div class="faq-icon" aria-hidden="true">+</div>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer-inner">
+              Once you book, we provide a comprehensive Prague guide including recommended hotels situated close to our Vinohrady clinic. Prague is extremely well-connected — it is just 2 to 2.5 hours by direct flight from London, Dublin, Frankfurt, Stockholm, Oslo, and Copenhagen. Our patient coordinator is happy to advise on transfers and logistics.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item fade-in delay-2" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            What is included in the quoted price?
+            <div class="faq-icon" aria-hidden="true">+</div>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer-inner">
+              Your quoted price includes the surgeon's fee, anaesthesiologist fee, operating theatre, nursing care, post-operative garments, in-clinic follow-up appointments, and your dedicated patient coordinator. Accommodation and flights are arranged separately — we will guide you to the best options for your stay.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item fade-in delay-3" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            How long do I need to stay in Prague?
+            <div class="faq-icon" aria-hidden="true">+</div>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer-inner">
+              Recovery times vary by procedure. As a general guide: eyelid surgery typically requires a 4–5 day stay; breast and body procedures 5–7 days; and facelift patients should plan for 7–10 days. Dr. Černá will provide a detailed timeline specific to your procedure at consultation.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item fade-in delay-4" role="listitem">
+          <button class="faq-question" aria-expanded="false">
+            What aftercare support is provided once I am back home?
+            <div class="faq-icon" aria-hidden="true">+</div>
+          </button>
+          <div class="faq-answer" role="region">
+            <div class="faq-answer-inner">
+              We operate a comprehensive remote aftercare programme for all international patients. This includes scheduled video follow-up consultations at 1 week, 1 month, and 3 months post-surgery. You will also have direct WhatsApp and email access to your dedicated patient coordinator throughout your recovery. Full documentation is provided for your GP or local healthcare provider.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       CONTACT SECTION
+       ============================================= -->
+  <section id="contact" class="section-pad">
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- Booking Form -->
+        <div class="contact-form-col fade-in">
+          <span class="eyebrow">Get in Touch</span>
+          <h2>Request a Free Consultation</h2>
+          <p class="form-subtitle">No obligation. No pressure. Just an honest conversation about your goals.</p>
+          <form id="consultation-form" novalidate>
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required />
+            </div>
+            <div class="form-group">
+              <label for="country">Country</label>
+              <select id="country" name="country" required>
+                <option value="" disabled selected>Select your country</option>
+                <option value="UK">United Kingdom</option>
+                <option value="IE">Ireland</option>
+                <option value="DE">Germany</option>
+                <option value="SE">Sweden</option>
+                <option value="NO">Norway</option>
+                <option value="DK">Denmark</option>
+                <option value="NL">Netherlands</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="procedure">Procedure Interest</label>
+              <select id="procedure" name="procedure" required>
+                <option value="" disabled selected>Select a procedure</option>
+                <option value="breast-aug">Breast Augmentation</option>
+                <option value="breast-lift">Breast Lift</option>
+                <option value="facelift">Facelift</option>
+                <option value="eyelid">Eyelid Surgery (Blepharoplasty)</option>
+                <option value="rhinoplasty">Rhinoplasty</option>
+                <option value="body">Body Contouring</option>
+                <option value="unsure">Not sure yet</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="preferred-date">Preferred Date</label>
+              <input type="month" id="preferred-date" name="preferred-date" />
+            </div>
+            <div class="form-group">
+              <label for="message">Message (optional)</label>
+              <textarea id="message" name="message" placeholder="Tell us a little about your goals or any questions you have…"></textarea>
+            </div>
+            <button type="submit" class="form-submit" id="form-submit-btn">Request Free Consultation →</button>
+            <div class="form-success" id="form-success" role="alert">
+              <span>✓</span>
+              <span>Request sent — we'll be in touch shortly!</span>
+            </div>
+          </form>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info-col fade-in delay-2">
+          <div class="clinic-name-heading">Laderma</div>
+          <div class="clinic-tagline">Dr. Zuzana Černá · Plastic &amp; Aesthetic Surgery · Prague 2</div>
+
+          <div class="contact-details">
+            <div class="contact-detail">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div class="contact-detail-body">
+                <div class="contact-detail-label">Address</div>
+                <div class="contact-detail-value">Rumunská 18, Praha 2 – Vinohrady<br>Prague, Czech Republic</div>
+              </div>
+            </div>
+
+            <div class="contact-detail">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 010 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.36 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/>
+                </svg>
+              </div>
+              <div class="contact-detail-body">
+                <div class="contact-detail-label">Phone / WhatsApp</div>
+                <div class="contact-detail-value"><a href="tel:+420775118005" style="color:inherit;">+420 775 118 005</a></div>
+              </div>
+            </div>
+
+            <div class="contact-detail">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div class="contact-detail-body">
+                <div class="contact-detail-label">Email</div>
+                <div class="contact-detail-value"><a href="mailto:info@laderma.cz" style="color:inherit;">info@laderma.cz</a></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="map-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <p>Rumunská 18 · Praha 2 Vinohrady</p>
+            <span>Google Maps integration available</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FOOTER
+       ============================================= -->
+  <footer id="footer">
+    <div class="footer-logo">Laderma</div>
+    <div class="footer-tagline">Dr. Zuzana Černá · Plastic &amp; Aesthetic Surgery · Prague</div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="#procedures">Procedures</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#about">Dr. Černá</a>
+      <a href="#testimonials">Patient Stories</a>
+      <a href="#safety">Standards</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="footer-sep"></div>
+    <div class="footer-copy">
+      © 2025 Laderma s.r.o. · Rumunská 18, Praha 2 · All rights reserved
+    </div>
+  </footer>
+
+  <!-- =============================================
+       FLOATING WHATSAPP BUTTON
+       ============================================= -->
+  <a href="https://wa.me/420775118005" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- =============================================
+       MOBILE STICKY CTA BAR
+       ============================================= -->
+  <div class="mobile-sticky-cta" aria-hidden="true">
+    <a href="#contact" tabindex="-1">Book Free Consultation</a>
+  </div>
+
+  <!-- =============================================
+       JAVASCRIPT
+       ============================================= -->
+  <script>
+    // ── Sticky Header ──────────────────────────────────────────
+    const header = document.getElementById('site-header');
+    let lastScrollY = 0;
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 40) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      lastScrollY = scrollY;
+    }, { passive: true });
+
+    // ── Hamburger / Mobile Nav ─────────────────────────────────
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen.toString());
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // ── Intersection Observer Fade-In ─────────────────────────
+    const fadeEls = document.querySelectorAll('.fade-in');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    fadeEls.forEach(el => observer.observe(el));
+
+    // ── FAQ Accordion ─────────────────────────────────────────
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const btn = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+
+      btn.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+
+        // Close all
+        faqItems.forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          i.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        // Open current if was closed
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+
+    // ── Contact Form ──────────────────────────────────────────
+    const form = document.getElementById('consultation-form');
+    const submitBtn = document.getElementById('form-submit-btn');
+    const successMsg = document.getElementById('form-success');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      // Simulate a short async delay
+      setTimeout(() => {
+        submitBtn.style.display = 'none';
+        successMsg.classList.add('show');
+        form.reset();
+      }, 900);
+    });
+
+    // ── Mobile sticky CTA a11y ────────────────────────────────
+    const mobileCta = document.querySelector('.mobile-sticky-cta a');
+    if (mobileCta) {
+      mobileCta.removeAttribute('tabindex');
+    }
+  </script>
+
+</body>
+</html>

@@ -19,4 +19,13 @@
       radial-gradient(circle at 88% 6%, rgba(184, 115, 51, 0.2), transparent 36%),
       linear-gradient(165deg, #fffaef 0%, #f6ebd8 44%, #eedcc1 100%);
   }
+
+  /* Prevent iOS from auto-zooming on input focus */
+  @media screen and (max-width: 767px) {
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
+  }
 }

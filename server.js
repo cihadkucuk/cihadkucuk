@@ -200,6 +200,36 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
+app.post("/api/waitlist", async (req, res) => {
+  try {
+    if (!isAllowedOrigin(req)) {
+      return res.status(403).json({ ok: false, error: "Request origin is not allowed." });
+    }
+
+    const ip = getClientIp(req);
+    if (isRateLimited(ip)) {
+      return res.status(429).json({ ok: false, error: "Too many requests. Please try again shortly." });
+    }
+
+    const email = normalizeField(req.body?.email, 160);
+    if (!email || !isValidEmail(email)) {
+      return res.status(400).json({ ok: false, error: "Invalid email address." });
+    }
+
+    const nowUtc = new Date().toISOString();
+    const message = `🚀 New StudioOS Waitlist Signup\nTime (UTC): ${nowUtc}\nEmail: ${email}`;
+    const sendResult = await sendToTelegram({ text: message });
+    if (!sendResult.ok) {
+      return res.status(sendResult.status).json({ ok: false, error: sendResult.error });
+    }
+
+    return res.json({ ok: true });
+  } catch (error) {
+    console.error("Waitlist endpoint error", error);
+    return res.status(500).json({ ok: false, error: "Unexpected server error." });
+  }
+});
+
 app.use(express.static(distPath));
 
 app.get("*", (_req, res) => {
